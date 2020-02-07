@@ -137,7 +137,13 @@ PrefabInstance:
         type: 3}
       propertyPath: puzzlePeices.Array.data[0]
       value: 
-      objectReference: {fileID: 3273319049400123680, guid: 449593648a4a46440ac4da40bcfa1d1b,
+      objectReference: {fileID: 1047612876225851585, guid: 8b8dab89079a4b845a10f5cc4e3aa830,
+        type: 3}
+    - target: {fileID: 3044487762866818278, guid: 16ab6eb2534be6749b7050834a7786ef,
+        type: 3}
+      propertyPath: GameBoard
+      value: 
+      objectReference: {fileID: 1102896375041461190, guid: 8e4b0cc72644f0e4dbfe149fe2d51457,
         type: 3}
     - target: {fileID: 6451225290249944350, guid: 16ab6eb2534be6749b7050834a7786ef,
         type: 3}
@@ -343,8 +349,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 13.3
-  field of view: 26.991467
+  far clip plane: 1000
+  field of view: 57
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -389,7 +395,7 @@ GameObject:
   - component: {fileID: 2028032128}
   - component: {fileID: 2028032127}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
