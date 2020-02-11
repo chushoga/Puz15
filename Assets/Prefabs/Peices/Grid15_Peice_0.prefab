@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3366628724201280905}
   m_Layer: 0
   m_Name: Grid15_Peice_0
-  m_TagString: Untagged
+  m_TagString: GamePeice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5197079a46691c40b81af2292b1c19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  location: 0
 --- !u!1 &4751413843918532236
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +251,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: bcb10f609fe8e5a468de18a32ec2a7d7, type: 2}
+      objectReference: {fileID: 2100000, guid: 983cb6db55f6a214f91f0e8984a6dac1, type: 2}
     - target: {fileID: -927199367670048503, guid: 82eacc99df9669b41ba64d8534d68f1e,
         type: 3}
       propertyPath: m_Name
