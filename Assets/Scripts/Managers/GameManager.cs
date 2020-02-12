@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         spawnPoints = new List<GameObject>();
 
         LoadPeices();
-        RandomizeBoard();
+        
     }
 
     // Game update
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RandomizeBoard()
+    public void ShuffleBoard()
     {
 
         // Shuffle the peices
@@ -108,7 +108,6 @@ public class GameManager : MonoBehaviour
                 j++; 
             }
         }
-
         
         // put the peices in the correct spot
     }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1047612876225851590}
   - component: {fileID: 3366628724201280905}
+  - component: {fileID: 3187082141917620675}
   m_Layer: 0
   m_Name: Grid15_Peice_0
   m_TagString: GamePeice
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   location: 0
+--- !u!65 &3187082141917620675
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047612876225851585}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1106821, y: 0.18090712, z: 1.1106821}
+  m_Center: {x: 0, y: 0.05287829, z: 0}
 --- !u!1 &4751413843918532236
 GameObject:
   m_ObjectHideFlags: 0
