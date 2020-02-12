@@ -9,11 +9,12 @@ public class GamePeice : MonoBehaviour
     private Vector3 mOffset;
     private float mZCoord;
     private Vector3 origMousePos;
+    private Vector3 origPos;
 
     void OnMouseDown()
     {
         origMousePos = GetMouseWorldPos();
-
+        origPos = gameObject.transform.position;
         mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
 
         // Store the offset. gameobject world pos - mouse world pos
@@ -35,15 +36,31 @@ public class GamePeice : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if(GetMouseWorldPos().z >= origMousePos.z)
+        
+    }
+
+    private void OnMouseUp()
+    {
+        if (GetMouseWorldPos().z >= origMousePos.z)
         {
-            print("Up");
-        } else
+            // Move up
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1.25f);
+            
+        }
+        else if(GetMouseWorldPos().z <= origMousePos.z)
         {
-            print("Down");
+            // Move down
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1.25f);
+        } else if(GetMouseWorldPos().y <= origMousePos.y)
+        {
+            // Move right
+            transform.position = new Vector3(transform.position.x, transform.position.y + 1.25f, transform.position.z);
+        } else if(GetMouseWorldPos().y >= origMousePos.y)
+        {
+            // Move left
+            transform.position = new Vector3(transform.position.x, transform.position.y - 1.25f, transform.position.z);
         }
 
-        transform.position = Vector3.up;
         /*
         print(GetMouseWorldPos());
         print(mOffset);
@@ -53,9 +70,10 @@ public class GamePeice : MonoBehaviour
         //transform.position = GetMouseWorldPos() + mOffset;
     }
 
-    private void OnMouseUp()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        print(other.name);
+        //gameObject.transform.position = origPos;
     }
 
 }
