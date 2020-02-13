@@ -11,6 +11,11 @@ public class GamePeice : MonoBehaviour
     private Vector3 origMousePos;
     private Vector3 origPos;
 
+    private void Start()
+    {
+        origPos = gameObject.transform.position;
+    }
+
     void OnMouseDown()
     {
         origMousePos = GetMouseWorldPos();
@@ -41,24 +46,30 @@ public class GamePeice : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (GetMouseWorldPos().z >= origMousePos.z)
+        float moved_upDown = System.Math.Abs(origMousePos.z - GetMouseWorldPos().z);        
+        float moved_leftRight = System.Math.Abs(origMousePos.x - GetMouseWorldPos().x);
+       
+        if (GetMouseWorldPos().z >= origMousePos.z && moved_upDown >= moved_leftRight)
         {
             // Move up
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1.25f);
             
         }
-        else if(GetMouseWorldPos().z <= origMousePos.z)
+        else if(GetMouseWorldPos().z <= origMousePos.z && moved_upDown >= moved_leftRight)
         {
             // Move down
             transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1.25f);
-        } else if(GetMouseWorldPos().y <= origMousePos.y)
+
+        } else if(GetMouseWorldPos().x <= origMousePos.x && moved_leftRight >= moved_upDown)
         {
             // Move right
-            transform.position = new Vector3(transform.position.x, transform.position.y + 1.25f, transform.position.z);
-        } else if(GetMouseWorldPos().y >= origMousePos.y)
+            transform.position = new Vector3(transform.position.x - 1.25f, transform.position.y, transform.position.z);
+
+        } else if(GetMouseWorldPos().x >= origMousePos.x && moved_leftRight >= moved_upDown)
         {
             // Move left
-            transform.position = new Vector3(transform.position.x, transform.position.y - 1.25f, transform.position.z);
+            transform.position = new Vector3(transform.position.x + 1.25f, transform.position.y, transform.position.z);
+
         }
 
         /*
@@ -73,7 +84,7 @@ public class GamePeice : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         print(other.name);
-        //gameObject.transform.position = origPos;
+        transform.position = new Vector3(origPos.x, origPos.y, origPos.z);
     }
 
 }
