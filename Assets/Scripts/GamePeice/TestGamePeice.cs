@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TestGamePeice : MonoBehaviour
 {
+    private bool moveToTarget = false;
     private Vector3 mouseDelta;
     private Vector3 lastMouseCoordinate;
     private Vector3 mOffset;
@@ -13,13 +15,12 @@ public class TestGamePeice : MonoBehaviour
     private float mZCoord;
     private bool XorZ; // which direction to move
 
-    public GameObject infoBox;
+    private GameObject console;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        //print(infoBox.GetComponent<Text>().text);
+        console = GameObject.Find("InfoBox");
         
     }
 
@@ -29,37 +30,29 @@ public class TestGamePeice : MonoBehaviour
         mOffset = gameObject.transform.position - GetMouseWorldPos();
 
         lastMouseCoordinate = Input.mousePosition;
-
-        //print(gameObject.transform.position - GetMouseWorldPos());
     }
 
     private void OnMouseUp()
     {
+
+        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 50f, Color.red, 5.0f);
+
+        // Raycast from 
+        RaycastHit hitPosition;
+        if (Physics.Raycast(transform.position, Vector3.forward, out hitPosition, 50))
+        {
+            print("HIT");
+            print(hitPosition.transform.position);
+            //transform.position = hitPosition.transform.position;
+            transform.position = Vector3.Lerp(transform.position, hitPosition.transform.position, 2.0f * Time.deltaTime);
+        }
         
     }
 
     private void OnMouseDrag()
     {
-        // transform.position = GetMouseWorldPos() + mOffset;
-        // update to a new original mouse postion to check for up down left right
-        /*
-        origX = Mathf.Abs(GetMouseWorldPos().x);
-        origZ = Mathf.Abs(GetMouseWorldPos().z);
-
-        if (origX < origZ)
-        {
-           
-            //transform.position = new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z);
-            print("Up and Down" + origX + "<" + origZ);
-        }
-
-        if(origX > origZ)
-        {
-            //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f);
-            print("Left and Right" + origX + ">" + origZ);
-        }
-        */
-        //will get a 0/0 error if mouse does not move
+        
+       
         mouseDelta = Input.mousePosition - lastMouseCoordinate;
         
 
@@ -68,23 +61,26 @@ public class TestGamePeice : MonoBehaviour
         float dot = Vector3.Dot(direction, Vector3.up);
         if (dot > 0.5)
         { //can be >= for sideways
-            print("UP");
-            transform.position = GetMouseWorldPos() + mOffset;
+            
+            print((GetMouseWorldPos() + mOffset).x);
+            print(console.GetComponentInChildren<TextMeshProUGUI>().text = "UP");
+            //transform.position += new Vector3((GetMouseWorldPos() + mOffset).x, transform.position.y, transform.position.z);
         }
         else if (dot < -0.5)
         { //can be <= for sideways
-            print("DOWN");
+            print(console.GetComponentInChildren<TextMeshProUGUI>().text = "DOWN");
+            //transform.position = GetMouseWorldPos() + mOffset;
         }
         else
         {
             dot = Vector3.Dot(direction, Vector3.right);
             if (dot > 0.5)
             { //can be >= for sideways
-                print("RIGHT");
+                print(console.GetComponentInChildren<TextMeshProUGUI>().text = "RIGHT");
             }
             else if (dot < -0.5)
             { //can be <= for sideways
-                print("LEFT");
+                print(console.GetComponentInChildren<TextMeshProUGUI>().text = "LEFT");
             }
         }
 
@@ -105,10 +101,21 @@ public class TestGamePeice : MonoBehaviour
 
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider col)
     {
-        
 
+        print("TEST");
+
+        if (col.gameObject.tag == "PeiceSpawn")
+        {
+            print("TEST");
+        }
+    }
+
+    void Update()
+    {
+
+       
     }
 
 }
