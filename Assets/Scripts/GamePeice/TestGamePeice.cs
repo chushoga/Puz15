@@ -35,24 +35,23 @@ public class TestGamePeice : MonoBehaviour
     private void OnMouseUp()
     {
 
-        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 50f, Color.red, 5.0f);
-
         // Raycast from 
         RaycastHit hitPosition;
         if (Physics.Raycast(transform.position, Vector3.forward, out hitPosition, 50))
         {
             print("HIT");
-            print(hitPosition.transform.position);
             //transform.position = hitPosition.transform.position;
             transform.position = Vector3.Lerp(transform.position, hitPosition.transform.position, 2.0f * Time.deltaTime);
         }
-        
+
     }
 
     private void OnMouseDrag()
     {
+
+        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 50f, Color.red, 5.0f);
+
         
-       
         mouseDelta = Input.mousePosition - lastMouseCoordinate;
         
 
@@ -61,7 +60,7 @@ public class TestGamePeice : MonoBehaviour
         float dot = Vector3.Dot(direction, Vector3.up);
         if (dot > 0.5)
         { //can be >= for sideways
-            
+            moveToTarget = true;
             print((GetMouseWorldPos() + mOffset).x);
             print(console.GetComponentInChildren<TextMeshProUGUI>().text = "UP");
             //transform.position += new Vector3((GetMouseWorldPos() + mOffset).x, transform.position.y, transform.position.z);
@@ -114,8 +113,12 @@ public class TestGamePeice : MonoBehaviour
 
     void Update()
     {
+        if (moveToTarget)
+        {
+           
+        }
+        
 
-       
     }
 
 }
