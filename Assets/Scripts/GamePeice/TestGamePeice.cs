@@ -7,25 +7,24 @@ using TMPro;
 public class TestGamePeice : MonoBehaviour
 {
     private bool moveToTarget = false;
+    private RaycastHit hitPosition;
+
     private Vector3 mouseDelta;
     private Vector3 lastMouseCoordinate;
     private Vector3 mOffset;
-    private float origX; // original x position [ right, left ]
-    private float origZ; // original z position [ up, down ]
     private float mZCoord;
-    private bool XorZ; // which direction to move
 
     private GameObject console;
 
     // Start is called before the first frame update
     void Start()
     {
-        console = GameObject.Find("InfoBox");
-        
+        console = GameObject.Find("InfoBox");        
     }
 
     private void OnMouseDown()
     {
+        
         mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
         mOffset = gameObject.transform.position - GetMouseWorldPos();
 
@@ -34,57 +33,43 @@ public class TestGamePeice : MonoBehaviour
 
     private void OnMouseUp()
     {
-
-        // Raycast from 
-        RaycastHit hitPosition;
-        if (Physics.Raycast(transform.position, Vector3.forward, out hitPosition, 50))
-        {
-            print("HIT");
-            //transform.position = hitPosition.transform.position;
-            transform.position = Vector3.Lerp(transform.position, hitPosition.transform.position, 2.0f * Time.deltaTime);
-        }
-
-    }
-
-    private void OnMouseDrag()
-    {
-
-        //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 50f, Color.red, 5.0f);
-
-        
         mouseDelta = Input.mousePosition - lastMouseCoordinate;
-        
 
         Vector3 direction = mouseDelta.normalized;
 
         float dot = Vector3.Dot(direction, Vector3.up);
         if (dot > 0.5)
-        { //can be >= for sideways
-            moveToTarget = true;
-            print((GetMouseWorldPos() + mOffset).x);
+        {
+            CheckTargetPosition("UP"); // check if there is a hit up.            
             print(console.GetComponentInChildren<TextMeshProUGUI>().text = "UP");
-            //transform.position += new Vector3((GetMouseWorldPos() + mOffset).x, transform.position.y, transform.position.z);
         }
         else if (dot < -0.5)
-        { //can be <= for sideways
+        {
+            CheckTargetPosition("DOWN"); // check if there is a hit down.            
             print(console.GetComponentInChildren<TextMeshProUGUI>().text = "DOWN");
-            //transform.position = GetMouseWorldPos() + mOffset;
         }
         else
         {
             dot = Vector3.Dot(direction, Vector3.right);
             if (dot > 0.5)
-            { //can be >= for sideways
+            {
+                CheckTargetPosition("RIGHT"); // check if there is a hit right.            
                 print(console.GetComponentInChildren<TextMeshProUGUI>().text = "RIGHT");
             }
             else if (dot < -0.5)
-            { //can be <= for sideways
+            {
+                CheckTargetPosition("LEFT"); // check if there is a hit left.            
                 print(console.GetComponentInChildren<TextMeshProUGUI>().text = "LEFT");
             }
         }
+    }
 
-        
-
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "PeiceSpawn")
+        {
+           // print("TEST");
+        }
     }
 
     // get the mouse world position
@@ -100,25 +85,63 @@ public class TestGamePeice : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider col)
+    // Move To position.
+    private void MoveToPosition(RaycastHit targetPos)
+    {        
+        transform.position = Vector3.Lerp(transform.position, targetPos.transform.position, 10.0f * Time.deltaTime);
+    }
+
+    // Raycast to target
+    private void CheckTargetPosition(string moveDirection)
     {
+        // -------------------------------------------------------------------------------------------------------------
+        // Raycast from 
+        // -------------------------------------------------------------------------------------------------------------
+        Vector3 raycastDirection = Vector3.forward;
 
-        print("TEST");
-
-        if (col.gameObject.tag == "PeiceSpawn")
+        switch (moveDirection)
         {
-            print("TEST");
+            case "UP":
+                raycastDirection = Vector3.forward;
+                break;
+            case "DOWN":
+                raycastDirection = Vector3.back;
+                break;
+            case "LEFT":
+                raycastDirection = Vector3.left;
+                break;
+            case "RIGHT":
+                raycastDirection = Vector3.right;
+                break;
+            default:
+                break;
         }
+
+
+        if (Physics.Raycast(transform.position, raycastDirection, out hitPosition, 50))
+        {   
+            if (hitPosition.transform.tag == "PeiceSpawn")
+            {                
+                moveToTarget = true; // Hit! Set move to target to true.
+            } else
+            {
+                moveToTarget = false; // prevent moving to target if not an empty spawn
+            }
+        }
+        else
+        {
+            moveToTarget = false;   // No hit. Set move to target to false.
+        }
+        // -------------------------------------------------------------------------------------------------------------
+
     }
 
     void Update()
     {
         if (moveToTarget)
         {
-           
+            MoveToPosition(hitPosition);
         }
-        
-
     }
 
 }

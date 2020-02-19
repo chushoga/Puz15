@@ -1,32 +1,75 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GamePeice : MonoBehaviour
 {
-    public int location; // final position
+    public int location;
 
+    private bool moveToTarget = false;
+    private RaycastHit hitPosition;
+
+    private Vector3 mouseDelta;
+    private Vector3 lastMouseCoordinate;
     private Vector3 mOffset;
     private float mZCoord;
-    private Vector3 origMousePos;
-    private Vector3 origPos;
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        origPos = gameObject.transform.position;
+       
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
-        origMousePos = GetMouseWorldPos();
-        origPos = gameObject.transform.position;
-        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
 
-        // Store the offset. gameobject world pos - mouse world pos
+        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
         mOffset = gameObject.transform.position - GetMouseWorldPos();
+
+        lastMouseCoordinate = Input.mousePosition;
         
     }
 
+    private void OnMouseUp()
+    {
+        mouseDelta = Input.mousePosition - lastMouseCoordinate;
+
+        Vector3 direction = mouseDelta.normalized;
+        
+        float dot = Vector3.Dot(direction, Vector3.up);
+        if (dot > 0.5)
+        {            
+            CheckTargetPosition("UP"); // check if there is a hit up.
+        }
+        else if (dot < -0.5)
+        {
+            CheckTargetPosition("DOWN"); // check if there is a hit down.
+        }
+        else
+        {
+            dot = Vector3.Dot(direction, Vector3.right);
+            if (dot > 0.5)
+            {
+                CheckTargetPosition("RIGHT"); // check if there is a hit right.
+            }
+            else if (dot < -0.5)
+            {
+                CheckTargetPosition("LEFT"); // check if there is a hit left.
+            }
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "PeiceSpawn")
+        {
+            // print("TEST");
+        }
+    }
+
+    // get the mouse world position
     private Vector3 GetMouseWorldPos()
     {
         // pixel cords
@@ -39,52 +82,62 @@ public class GamePeice : MonoBehaviour
 
     }
 
-    private void OnMouseDrag()
+    // Move To position.
+    private void MoveToPosition(RaycastHit targetPos)
+    {  
+        transform.position = Vector3.Lerp(transform.position, targetPos.transform.position, 10.0f * Time.deltaTime);
+    }
+
+    // Raycast to target
+    private void CheckTargetPosition(string moveDirection)
     {
+        // -------------------------------------------------------------------------------------------------------------
+        // Raycast from 
+        // -------------------------------------------------------------------------------------------------------------
+        Vector3 raycastDirection = Vector3.forward;
         
-    }
-
-    private void OnMouseUp()
-    {
-        float moved_upDown = System.Math.Abs(origMousePos.z - GetMouseWorldPos().z);        
-        float moved_leftRight = System.Math.Abs(origMousePos.x - GetMouseWorldPos().x);
-       
-        if (GetMouseWorldPos().z >= origMousePos.z && moved_upDown >= moved_leftRight)
+        switch (moveDirection)
         {
-            // Move up
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1.25f);
-            
-        }
-        else if(GetMouseWorldPos().z <= origMousePos.z && moved_upDown >= moved_leftRight)
-        {
-            // Move down
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1.25f);
-
-        } else if(GetMouseWorldPos().x <= origMousePos.x && moved_leftRight >= moved_upDown)
-        {
-            // Move right
-            transform.position = new Vector3(transform.position.x - 1.25f, transform.position.y, transform.position.z);
-
-        } else if(GetMouseWorldPos().x >= origMousePos.x && moved_leftRight >= moved_upDown)
-        {
-            // Move left
-            transform.position = new Vector3(transform.position.x + 1.25f, transform.position.y, transform.position.z);
-
+            case "UP":
+                raycastDirection = Vector3.forward;
+                break;
+            case "DOWN":
+                raycastDirection = Vector3.back;
+                break;
+            case "LEFT":
+                raycastDirection = Vector3.left;
+                break;
+            case "RIGHT":
+                raycastDirection = Vector3.right;
+                break;
+            default:
+                break;
         }
 
-        /*
-        print(GetMouseWorldPos());
-        print(mOffset);
-        print("----");
-        */
+        if (Physics.Raycast(transform.position, raycastDirection, out hitPosition, 50))
+        {
+            if (hitPosition.transform.tag == "PeiceSpawn")
+            {
+                moveToTarget = true; // Hit! Set move to target to true.
+            }
+            else
+            {
+                moveToTarget = false; // prevent moving to target if not an empty spawn
+            }
+        }
+        else
+        {
+            moveToTarget = false;   // No hit. Set move to target to false.
+        }
+        // -------------------------------------------------------------------------------------------------------------
 
-        //transform.position = GetMouseWorldPos() + mOffset;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void Update()
     {
-        print(other.name);
-        transform.position = new Vector3(origPos.x, origPos.y, origPos.z);
+        if (moveToTarget)
+        {
+            MoveToPosition(hitPosition);
+        }
     }
-
 }
