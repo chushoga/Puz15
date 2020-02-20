@@ -48,6 +48,11 @@ public class GameManager : MonoBehaviour
         // Instantiate the Gamebord first then the peices.
         board = Instantiate(GameBoard, new Vector3(0f, 0f, 0f), Quaternion.identity);
 
+        // Center the board over the puzzle
+        // Get a reference to the Gameboard Center
+        Vector3 boardCenter = board.transform.Find("PuzzleCenter").gameObject.transform.position;
+        Camera.main.transform.position = new Vector3(boardCenter.x, Camera.main.transform.position.y, boardCenter.z);
+
         // Create a parent for the puzzle peices.
         puzzleContainer = new GameObject("Peices");
 
