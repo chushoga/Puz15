@@ -18,7 +18,7 @@ public class GamePeice : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     private void OnMouseDown()
@@ -28,7 +28,7 @@ public class GamePeice : MonoBehaviour
         mOffset = gameObject.transform.position - GetMouseWorldPos();
 
         lastMouseCoordinate = Input.mousePosition;
-        
+
     }
 
     private void OnMouseUp()
@@ -36,15 +36,17 @@ public class GamePeice : MonoBehaviour
         mouseDelta = Input.mousePosition - lastMouseCoordinate;
 
         Vector3 direction = mouseDelta.normalized;
-        
+
         float dot = Vector3.Dot(direction, Vector3.up);
         if (dot > 0.5)
-        {            
+        {
             CheckTargetPosition("UP"); // check if there is a hit up.
+            UpdateTotalMoves();
         }
         else if (dot < -0.5)
         {
             CheckTargetPosition("DOWN"); // check if there is a hit down.
+            UpdateTotalMoves();
         }
         else
         {
@@ -52,13 +54,21 @@ public class GamePeice : MonoBehaviour
             if (dot > 0.5)
             {
                 CheckTargetPosition("RIGHT"); // check if there is a hit right.
+                UpdateTotalMoves();
             }
             else if (dot < -0.5)
             {
                 CheckTargetPosition("LEFT"); // check if there is a hit left.
+                UpdateTotalMoves();
             }
         }
 
+    }
+
+    // Update the total moves in the ui
+    void UpdateTotalMoves()
+    {
+        
     }
 
     private void OnTriggerEnter(Collider col)

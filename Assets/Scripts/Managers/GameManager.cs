@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class GameManager : MonoBehaviour
     /* References */
     // -----------------------------------------------------------------
 
-    LevelManager lm; // Level manager reference.
+    private LevelManager lm; // Level manager reference.
+    public int totalMoves;
+    public TextMeshPro totalMovesTxt;
 
     [Tooltip("Game Board")]
     public GameObject GameBoard;
@@ -33,8 +36,9 @@ public class GameManager : MonoBehaviour
         // create the list here for the snap points
         spawnPoints = new List<GameObject>();
 
-        LoadPeices();
         
+        LoadPeices();
+        ShuffleBoard();
     }
 
     // Game update
@@ -72,7 +76,7 @@ public class GameManager : MonoBehaviour
 
         int GamePeice_i = 0;
         // Instantiate a game peice for each spawn point in the board object.
-        print(Mathf.Floor(Mathf.Sqrt(20)));
+        
         foreach (Transform t in board.transform)
         {
             if (t.tag == "PeiceSpawn" && GamePeice_i != (spawnPoints.Count - 1))
@@ -83,7 +87,7 @@ public class GameManager : MonoBehaviour
                 p.transform.parent = puzzleContainer.transform; // For keeping the inspector clutter free. Just housekeeping.
 
                 // Give the peice a random color
-                p.GetComponentInChildren<Renderer>().material.color = Random.ColorHSV(0f, 1f, 0.3f, 0.3f, 0.8f, 0.8f);
+                p.GetComponentInChildren<Renderer>().material.color = Random.ColorHSV(0.5f, 1f, 0.3f, 0.3f, 0.8f, 0.8f);
 
                 GamePeice_i++;
             }
@@ -105,7 +109,7 @@ public class GameManager : MonoBehaviour
         }
         
 
-        // Instantiate a game peice for each spawn point in the board object.
+        // Move the game peice to the new postion
         int j = 0;
         foreach (Transform t in puzzleContainer.transform)
         {
