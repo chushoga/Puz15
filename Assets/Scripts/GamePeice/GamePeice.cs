@@ -95,7 +95,15 @@ public class GamePeice : MonoBehaviour
     // Move To position.
     private void MoveToPosition(RaycastHit targetPos)
     {  
-        transform.position = Vector3.Lerp(transform.position, targetPos.transform.position, 10.0f * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPos.transform.position, 15.0f * Time.deltaTime);
+        
+        
+        if (Vector3.Equals(transform.position,targetPos.transform.position) == true)
+        {
+            moveToTarget = false;
+        }
+        
+        GameManager.FindObjectOfType<GameManager>().totalMoves += 1;
     }
 
     // Raycast to target

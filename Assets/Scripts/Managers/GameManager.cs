@@ -35,8 +35,7 @@ public class GameManager : MonoBehaviour
                 
         // create the list here for the snap points
         spawnPoints = new List<GameObject>();
-
-        
+                
         LoadPeices();
         ShuffleBoard();
     }
