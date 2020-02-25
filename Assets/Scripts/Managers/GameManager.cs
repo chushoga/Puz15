@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     private LevelManager lm; // Level manager reference.
     public int totalMoves;
-    public TextMeshPro totalMovesTxt;
+    public GameObject totalMovesTxt;
 
     [Tooltip("Game Board")]
     public GameObject GameBoard;

@@ -103,7 +103,6 @@ public class GamePeice : MonoBehaviour
             moveToTarget = false;
         }
         
-        GameManager.FindObjectOfType<GameManager>().totalMoves += 1;
     }
 
     // Raycast to target
@@ -136,6 +135,7 @@ public class GamePeice : MonoBehaviour
         {
             if (hitPosition.transform.tag == "PeiceSpawn")
             {
+                GameManager.FindObjectOfType<GameManager>().totalMoves += 1; // increase the move counter
                 moveToTarget = true; // Hit! Set move to target to true.
             }
             else
