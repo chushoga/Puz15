@@ -9,6 +9,14 @@ public class TestImageProjector : MonoBehaviour
     public GameObject puzzleImage; // The image to project.
     public GameObject puzzleProjectorCam; // Prefab of camera the projects the texture.
     public GameObject testPeice;
+    
+    private Shader unlit;
+
+    // find the correct shader
+    void Awake()
+    {
+        
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +30,8 @@ public class TestImageProjector : MonoBehaviour
         
         float newOrthoScale = 1.0f / (float)puzzleSize; // set the ortho scale
         float newOrthoSize =  newOrthoScale * 0.5f; // get the new ortho camera size based off the scale / puzzle width and height
+        GameObject hk_CAMERA = new GameObject("hk_CAMERA");// Housekeeping parent for the render cameras
+        GameObject hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
 
         // Instantiate puzzleSize x puzzleSize count of puzleProjector Cameras.
         for(int i = 0; i <= puzzleSize - 1; i++)
@@ -39,15 +49,22 @@ public class TestImageProjector : MonoBehaviour
                 // check if i need to create a new render texture for this.
                 // match the puzzle peice to the render texture/camera pair
                 // create a new test board from peices
-                GameObject gm = Instantiate(testPeice, new Vector3(i, 0f, j), Quaternion.identity);
+                GameObject gm = Instantiate(testPeice, new Vector3(i, 0f, j), testPeice.transform.rotation);
                 gm.GetComponent<Renderer>().material.mainTexture = rt;
+
+                Shader shader1 = Shader.Find("Unlit/Texture");
+                gm.GetComponent<Renderer>().material.shader = shader1;
+
+                //gm.GetComponent<Renderer>().material.shader = unlit;
                 // position the camera positon in order of width and height of the puzzle.
                 newCam.transform.Translate((newOrthoScale / 2), (newOrthoScale / 2), -1f); // move half a square up and over to start
 
                 float newPosX = (newOrthoScale) * i;
                 float newPosY = (newOrthoScale) * j;
                 newCam.transform.Translate(newPosX, newPosY, 0f); // move to correct position
-                
+
+                newCam.transform.SetParent(hk_CAMERA.transform); // set parent of the newCam for housekeeping
+                gm.transform.SetParent(hk_PEICES.transform); // set the parent of the peices for housekeeping
             }
         }
         
