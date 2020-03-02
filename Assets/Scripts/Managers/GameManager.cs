@@ -40,12 +40,6 @@ public class GameManager : MonoBehaviour
         ShuffleBoard();
     }
 
-    // Game update
-    private void Update()
-    {
-        
-    }
-
     public void LoadPeices()
     {
         // Instantiate the Gamebord first then the peices.

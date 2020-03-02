@@ -10,10 +10,12 @@ public class GamePeice : MonoBehaviour
     private bool moveToTarget = false;
     private RaycastHit hitPosition;
 
-    private Vector3 mouseDelta;
-    private Vector3 lastMouseCoordinate;
-    private Vector3 mOffset;
-    private float mZCoord;
+    // Movement variables.
+    private Vector3 mouseDelta; // The current mouse position - last mouse position.
+    private Vector3 lastMouseCoordinate; // The last mouse position.
+    private Vector3 mOffset; // The mouse offset.
+    private float mZCoord; // The mouse z position used for mouse position calculations. 
+    private float movementSpeed = 15.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,23 +23,25 @@ public class GamePeice : MonoBehaviour
 
     }
 
+    // When the mouse is held down on theis peice...
     private void OnMouseDown()
     {
 
-        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
-        mOffset = gameObject.transform.position - GetMouseWorldPos();
+        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z; // Set the mouse z coord.
+        mOffset = gameObject.transform.position - GetMouseWorldPos(); // Calculate the mouse offset.
 
-        lastMouseCoordinate = Input.mousePosition;
+        lastMouseCoordinate = Input.mousePosition;// Set the last position of mouse coordinate.
 
     }
 
+    // When the mouse/finger is released...
     private void OnMouseUp()
     {
-        mouseDelta = Input.mousePosition - lastMouseCoordinate;
+        mouseDelta = Input.mousePosition - lastMouseCoordinate; // update the mouse delta.
 
-        Vector3 direction = mouseDelta.normalized;
+        Vector3 direction = mouseDelta.normalized; // Get a direction from the mouseDelta
 
-        float dot = Vector3.Dot(direction, Vector3.up);
+        float dot = Vector3.Dot(direction, Vector3.up); // get a 0-1f vector 3 from the direction to decide which way.
         if (dot > 0.5)
         {
             CheckTargetPosition("UP"); // check if there is a hit up.
@@ -71,15 +75,7 @@ public class GamePeice : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider col)
-    {
-        if (col.gameObject.tag == "PeiceSpawn")
-        {
-            // print("TEST");
-        }
-    }
-
-    // get the mouse world position
+    // Get the mouse world position.
     private Vector3 GetMouseWorldPos()
     {
         // pixel cords
@@ -95,17 +91,18 @@ public class GamePeice : MonoBehaviour
     // Move To position.
     private void MoveToPosition(RaycastHit targetPos)
     {  
-        transform.position = Vector3.Lerp(transform.position, targetPos.transform.position, 15.0f * Time.deltaTime);
-        
-        
+        // Move to the new position with a lerp.
+        transform.position = Vector3.Lerp(transform.position, targetPos.transform.position, movementSpeed * Time.deltaTime);
+                
+        // If the position is about = to the target then stop moving.
         if (Vector3.Equals(transform.position,targetPos.transform.position) == true)
         {
-            moveToTarget = false;
+            moveToTarget = false; // set movement flag to false to stop movement. This is checked in the update function.
         }
         
     }
 
-    // Raycast to target
+    // Raycast to target to check position
     private void CheckTargetPosition(string moveDirection)
     {
         // -------------------------------------------------------------------------------------------------------------
@@ -153,6 +150,7 @@ public class GamePeice : MonoBehaviour
 
     void Update()
     {
+        // If true move to target.
         if (moveToTarget)
         {
             MoveToPosition(hitPosition);
