@@ -68,6 +68,7 @@ public class BoardManager : MonoBehaviour
         GameObject hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
 
         // Instantiate puzzleSize x puzzleSize count of puzleProjector Cameras.
+        int counter = 1;
         for (int i = 0; i <= puzzleSize - 1; i++)
         {
             for (int j = 0; j <= puzzleSize - 1; j++)
@@ -86,12 +87,9 @@ public class BoardManager : MonoBehaviour
                 GameObject gm = Instantiate(gamePeice, new Vector3(i, j, 0f), gamePeice.transform.rotation);
                 gm.GetComponent<Renderer>().material.mainTexture = rt;
 
-                // hide last bottom right peice if last peice.
-                if ((i == puzzleSize - 1) && (j == 0))
-                {
-                    gm.SetActive(false);
-                }
-
+                // Set the id of the game peice here so we can do things with them.
+                gm.GetComponent<GamePeice>().location = counter;
+                               
                 Shader shader1 = Shader.Find("Unlit/Texture");
                 gm.GetComponent<Renderer>().material.shader = shader1;
 
@@ -104,10 +102,12 @@ public class BoardManager : MonoBehaviour
 
                 newCam.transform.SetParent(hk_CAMERA.transform); // set parent of the newCam for housekeeping
                 gm.transform.SetParent(hk_PEICES.transform); // set the parent of the peices for housekeeping
+
+                counter++;
             }
         }
         Renderer[] rends = hk_PEICES.GetComponentsInChildren<Renderer>();
-        Bounds bounds;
+        
         float x = 0f;
         float y = 0f;
         foreach (Renderer rend in rends)
@@ -119,6 +119,22 @@ public class BoardManager : MonoBehaviour
         x = x / (puzzleSize * puzzleSize);
         y = y / (puzzleSize * puzzleSize);
         print(x + "," + y);
+
+        // hide last bottom right peice if last peice.
+        foreach(Transform child in hk_PEICES.transform)
+        {
+            if(child.GetComponent<GamePeice>().location == ((puzzleSize * puzzleSize) - (puzzleSize - 1)))
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+        /*
+        if ((i == puzzleSize - 1) && (j == 0))
+        {
+            // gm.SetActive(false);
+            // set as the starting piece or hide the last peice later after all loaded and centered.
+        }*/
+
         Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
         // Vector3 center = bounds.center;
         //print(bounds.center + "," + bounds.size);
