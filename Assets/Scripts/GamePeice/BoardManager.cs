@@ -2,25 +2,58 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestImageProjector : MonoBehaviour
+public class BoardManager : MonoBehaviour
 {
 
+    // -----------------------------------------------------------------
+    /* References */
+    // -----------------------------------------------------------------
+    
+    // PUBLIC -- Puzzle peice variables
     public int puzzleSize; // How many tiles ie: 4x4.
     public GameObject puzzleImage; // The image to project.
-    public GameObject puzzleProjectorCam; // Prefab of camera the projects the texture.
-    public GameObject testPeice;
-    
-    private Shader unlit;
+    public GameObject puzzleProjectorCam; // Prefab of camera that projects the texture.
+    public GameObject gamePeice; // the game peice
+    public GameObject snapPoint;// snap point for prefab
 
+    // PRIVATE -- Variables
+    private Shader unlit; // unlit texture for the peices
 
     // Start is called before the first frame update
     void Start()
     {
+        CreateBoard();
         LoadPeices();
+        UpdateCamera();
+    }
+
+    // Update the camera scale and center on puzzle
+    void UpdateCamera()
+    {
+        Camera.main.orthographicSize = puzzleSize;
+        
+    }
+
+    // Create the play board
+    void CreateBoard()
+    {
+        GameObject hk_SNAP = new GameObject("hk_SNAP");// Housekeeping parent for the peices
+
+        // Create peices from the loop
+        for (int i = 0; i <= puzzleSize - 1; i++)
+        {
+            for (int j = 0; j <= puzzleSize - 1; j++)
+            {
+                // create a new snap point.
+                GameObject sp = Instantiate(snapPoint, new Vector3(i, j, 0f), snapPoint.transform.rotation);
+                sp.transform.SetParent(hk_SNAP.transform); // set to a parent for housekeeping
+
+            }
+        }
     }
 
     // LoadPeices
-    public void LoadPeices()
+    void LoadPeices()
     {
         // Instantiate the projector image
         // Instantiate the prefab ortho projector cameras at the correct position and count for the size of the puzzle
@@ -50,7 +83,7 @@ public class TestImageProjector : MonoBehaviour
                 // check if i need to create a new render texture for this.
                 // match the puzzle peice to the render texture/camera pair
                 // create a new test board from peices
-                GameObject gm = Instantiate(testPeice, new Vector3(i, 0f, j), testPeice.transform.rotation);
+                GameObject gm = Instantiate(gamePeice, new Vector3(i, j, 0f), gamePeice.transform.rotation);
                 gm.GetComponent<Renderer>().material.mainTexture = rt;
 
                 // hide last bottom right peice if last peice.
@@ -73,8 +106,56 @@ public class TestImageProjector : MonoBehaviour
                 gm.transform.SetParent(hk_PEICES.transform); // set the parent of the peices for housekeeping
             }
         }
+        Renderer[] rends = hk_PEICES.GetComponentsInChildren<Renderer>();
+        Bounds bounds;
+        float x = 0f;
+        float y = 0f;
+        foreach (Renderer rend in rends)
+        {
+            x += rend.bounds.center.x;
+            y += rend.bounds.center.y;           
+        }
+
+        x = x / (puzzleSize * puzzleSize);
+        y = y / (puzzleSize * puzzleSize);
+        print(x + "," + y);
+        Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
+        // Vector3 center = bounds.center;
+        //print(bounds.center + "," + bounds.size);
     }
 
 
+    // Shuffle the board up
+    public void ShuffleBoard()
+    {
+
+        // Shuffle the peices
+        /*
+        List<GameObject> tempGM = spawnPoints;
+        for (int i = 0; i < tempGM.Count; i++)
+        {
+            GameObject temp = tempGM[i];
+            int randomIndex = Random.Range(i, tempGM.Count);
+            tempGM[i] = tempGM[randomIndex];
+            tempGM[randomIndex] = temp;
+        }
+
+
+        // Move the game peice to the new postion
+        int j = 0;
+        foreach (Transform t in puzzleContainer.transform)
+        {
+
+            if (t.tag == "GamePeice")
+            {
+                //print(spawnPoints[j].transform.position.x);
+                print(j);
+                t.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
+                j++;
+            }
+        }
+        */
+
+    }
 
 }

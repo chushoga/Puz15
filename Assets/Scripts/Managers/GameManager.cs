@@ -11,9 +11,11 @@ public class GameManager : MonoBehaviour
     // -----------------------------------------------------------------
 
     private LevelManager lm; // Level manager reference.
+    private BoardManager bm; // Board Manager - does all the board/peice spawning
     public int totalMoves;
     public GameObject totalMovesTxt;
 
+    /*
     [Tooltip("Game Board")]
     public GameObject GameBoard;
     private GameObject board;
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> spawnPoints;
 
     private GameObject puzzleContainer;
+    */
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +37,11 @@ public class GameManager : MonoBehaviour
         lm = GameObject.Find("LevelManager").gameObject.GetComponent<LevelManager>();
                 
         // create the list here for the snap points
-        spawnPoints = new List<GameObject>();
+        //spawnPoints = new List<GameObject>();
                 
-        LoadPeices();
-        ShuffleBoard();
+        //LoadPeices();
     }
-
+    /*
     public void LoadPeices()
     {
         // Instantiate the Gamebord first then the peices.
@@ -61,7 +63,7 @@ public class GameManager : MonoBehaviour
             {
                 // add to the peice list
                 SpawnPoint spawn = t.GetComponent<SpawnPoint>();
-                spawn.location = pos; // Update the position of the spawn point to keep track of array.
+                spawn.spawnId = pos; // Update the position of the spawn point to keep track of array.
                 spawnPoints.Add(t.gameObject); // For keeping the inspector clutter free. Just housekeeping.
                 pos++; // Increment the position for array.
             }
@@ -86,36 +88,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    */
 
-    public void ShuffleBoard()
-    {
-
-        // Shuffle the peices
-        
-        List<GameObject> tempGM = spawnPoints;
-        for (int i = 0; i < tempGM.Count; i++)
-        {
-            GameObject temp = tempGM[i];
-            int randomIndex = Random.Range(i, tempGM.Count);
-            tempGM[i] = tempGM[randomIndex];
-            tempGM[randomIndex] = temp;
-        }
-        
-
-        // Move the game peice to the new postion
-        int j = 0;
-        foreach (Transform t in puzzleContainer.transform)
-        {
-           
-            if (t.tag == "GamePeice")
-            {
-                //print(spawnPoints[j].transform.position.x);
-                print(j);
-                t.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
-                j++; 
-            }
-        }
-        
-        // put the peices in the correct spot
-    }
+    
 }

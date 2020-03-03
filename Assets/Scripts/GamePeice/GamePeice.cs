@@ -7,10 +7,9 @@ public class GamePeice : MonoBehaviour
 {
     public int location;
 
+    // Movement variables.
     private bool moveToTarget = false;
     private RaycastHit hitPosition;
-
-    // Movement variables.
     private Vector3 mouseDelta; // The current mouse position - last mouse position.
     private Vector3 lastMouseCoordinate; // The last mouse position.
     private Vector3 mOffset; // The mouse offset.
@@ -108,15 +107,15 @@ public class GamePeice : MonoBehaviour
         // -------------------------------------------------------------------------------------------------------------
         // Raycast from 
         // -------------------------------------------------------------------------------------------------------------
-        Vector3 raycastDirection = Vector3.forward;
+        Vector3 raycastDirection = Vector3.up;
         
         switch (moveDirection)
         {
             case "UP":
-                raycastDirection = Vector3.forward;
+                raycastDirection = Vector3.up;
                 break;
             case "DOWN":
-                raycastDirection = Vector3.back;
+                raycastDirection = Vector3.down;
                 break;
             case "LEFT":
                 raycastDirection = Vector3.left;
@@ -132,7 +131,7 @@ public class GamePeice : MonoBehaviour
         {
             if (hitPosition.transform.tag == "PeiceSpawn")
             {
-                GameManager.FindObjectOfType<GameManager>().totalMoves += 1; // increase the move counter
+                //GameManager.FindObjectOfType<GameManager>().totalMoves += 1; // increase the move counter
                 moveToTarget = true; // Hit! Set move to target to true.
             }
             else
