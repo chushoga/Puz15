@@ -14,10 +14,12 @@ public class BoardManager : MonoBehaviour
     public GameObject puzzleImage; // The image to project.
     public GameObject puzzleProjectorCam; // Prefab of camera that projects the texture.
     public GameObject gamePeice; // the game peice
-    public GameObject snapPoint;// snap point for prefab
+    public GameObject snapPoint; // snap point for prefab
+    public GameObject backgroundImage; // backgrouind image
 
     // PRIVATE -- Variables
     private Shader unlit; // unlit texture for the peices
+    private float cameraPadding = 1.15f; // How much padding for the camera
 
     // Start is called before the first frame update
     void Start()
@@ -25,13 +27,19 @@ public class BoardManager : MonoBehaviour
         CreateBoard();
         LoadPeices();
         UpdateCamera();
+        //AddBackground();
     }
 
     // Update the camera scale and center on puzzle
     void UpdateCamera()
     {
-        Camera.main.orthographicSize = puzzleSize;
-        
+        Camera.main.orthographicSize = puzzleSize * cameraPadding;
+    }
+
+    // Add the background
+    void AddBackground()
+    {
+        GameObject bg = Instantiate(backgroundImage, new Vector3(0f, 0f, backgroundImage.transform.position.z), Quaternion.identity);
     }
 
     // Create the play board

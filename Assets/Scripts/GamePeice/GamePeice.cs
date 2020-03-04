@@ -71,7 +71,7 @@ public class GamePeice : MonoBehaviour
     // Update the total moves in the ui
     void UpdateTotalMoves()
     {
-        
+        GameManager.FindObjectOfType<GameManager>().totalMoves += 1;
     }
 
     // Get the mouse world position.
