@@ -52,7 +52,7 @@ public class GamePeice : MonoBehaviour
             UpdateTotalMoves();
         }
         else
-        {
+        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
             dot = Vector3.Dot(direction, Vector3.right);
             if (dot > 0.5)
             {
@@ -71,7 +71,9 @@ public class GamePeice : MonoBehaviour
     // Update the total moves in the ui
     void UpdateTotalMoves()
     {
-        GameManager.FindObjectOfType<GameManager>().totalMoves += 1;
+        GameManager gm = GameObject.Find("GameManager").gameObject.GetComponent<GameManager>();
+        gm.totalMoves += 1;
+        gm.totalMovesTxt.GetComponentInChildren<TextMeshProUGUI>().text = gm.totalMoves + "";
     }
 
     // Get the mouse world position.
