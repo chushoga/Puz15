@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    public int spawnId;
+    public int spawnIndex;
 }

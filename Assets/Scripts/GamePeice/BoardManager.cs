@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-
     // -----------------------------------------------------------------
     /* References */
     // -----------------------------------------------------------------
@@ -20,6 +19,8 @@ public class BoardManager : MonoBehaviour
     // PRIVATE -- Variables
     private Shader unlit; // unlit texture for the peices
     private float cameraPadding = 1.15f; // How much padding for the camera
+    private List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
+    private List<GameObject> gamePeices = new List<GameObject>(); // need to initialize fields when they are private
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +48,7 @@ public class BoardManager : MonoBehaviour
     {
         GameObject hk_SNAP = new GameObject("hk_SNAP");// Housekeeping parent for the peices
 
+        int counter = 1;
         // Create peices from the loop
         for (int i = 0; i <= puzzleSize - 1; i++)
         {
@@ -55,7 +57,9 @@ public class BoardManager : MonoBehaviour
                 // create a new snap point.
                 GameObject sp = Instantiate(snapPoint, new Vector3(i, j, 0f), snapPoint.transform.rotation);
                 sp.transform.SetParent(hk_SNAP.transform); // set to a parent for housekeeping
-
+                sp.GetComponent<SpawnPoint>().spawnIndex = counter;
+                spawnPoints.Add(sp);
+                counter++;
             }
         }
     }
@@ -96,7 +100,7 @@ public class BoardManager : MonoBehaviour
                 gm.GetComponent<Renderer>().material.mainTexture = rt;
 
                 // Set the id of the game peice here so we can do things with them.
-                gm.GetComponent<GamePeice>().location = counter;
+                gm.GetComponent<GamePeice>().peiceIndex = counter;
                                
                 Shader shader1 = Shader.Find("Unlit/Texture");
                 gm.GetComponent<Renderer>().material.shader = shader1;
@@ -110,6 +114,8 @@ public class BoardManager : MonoBehaviour
 
                 newCam.transform.SetParent(hk_CAMERA.transform); // set parent of the newCam for housekeeping
                 gm.transform.SetParent(hk_PEICES.transform); // set the parent of the peices for housekeeping
+
+                gamePeices.Add(gm); // add game peice to a list for shuffling and checking if game is finsished
 
                 counter++;
             }
@@ -126,35 +132,25 @@ public class BoardManager : MonoBehaviour
 
         x = x / (puzzleSize * puzzleSize);
         y = y / (puzzleSize * puzzleSize);
-        print(x + "," + y);
-
+        
         // hide last bottom right peice if last peice.
         foreach(Transform child in hk_PEICES.transform)
         {
-            if(child.GetComponent<GamePeice>().location == ((puzzleSize * puzzleSize) - (puzzleSize - 1)))
+            if(child.GetComponent<GamePeice>().peiceIndex == ((puzzleSize * puzzleSize) - (puzzleSize - 1)))
             {
                 child.gameObject.SetActive(false);
             }
         }
-        /*
-        if ((i == puzzleSize - 1) && (j == 0))
-        {
-            // gm.SetActive(false);
-            // set as the starting piece or hide the last peice later after all loaded and centered.
-        }*/
-
+  
         Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
-        // Vector3 center = bounds.center;
-        //print(bounds.center + "," + bounds.size);
+
     }
 
 
     // Shuffle the board up
     public void ShuffleBoard()
     {
-
-        // Shuffle the peices
-        /*
+        // Randomize the spawnpoints and put into a temp snap point location
         List<GameObject> tempGM = spawnPoints;
         for (int i = 0; i < tempGM.Count; i++)
         {
@@ -163,23 +159,24 @@ public class BoardManager : MonoBehaviour
             tempGM[i] = tempGM[randomIndex];
             tempGM[randomIndex] = temp;
         }
-
-
+        
         // Move the game peice to the new postion
+        
         int j = 0;
-        foreach (Transform t in puzzleContainer.transform)
+        foreach (GameObject t in gamePeices)
         {
-
-            if (t.tag == "GamePeice")
-            {
-                //print(spawnPoints[j].transform.position.x);
-                print(j);
-                t.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
-                j++;
-            }
+            print(j);
+            t.transform.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
+            j++;
         }
-        */
+        
+    }
 
+    // Check if the peices are all in their correct spots
+    // Check after each move.
+    public void CheckPositions()
+    {
+        // update the GamePeice correctPos = true if the peice location matches the 
     }
 
 }

@@ -5,7 +5,8 @@ using TMPro;
 
 public class GamePeice : MonoBehaviour
 {
-    public int location;
+    public int peiceIndex; // index of the peice starting from 1 to max size
+    public bool correctPos = false; // Is this the correct final postion?
 
     // Movement variables.
     private bool moveToTarget = false;
