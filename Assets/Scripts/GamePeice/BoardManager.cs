@@ -150,8 +150,11 @@ public class BoardManager : MonoBehaviour
     // Shuffle the board up
     public void ShuffleBoard()
     {
+        int snapOffset = (puzzleSize * puzzleSize) - (puzzleSize - 1);
+
         // Randomize the spawnpoints and put into a temp snap point location
         List<GameObject> tempGM = spawnPoints;
+        
         for (int i = 0; i < tempGM.Count; i++)
         {
             GameObject temp = tempGM[i];
@@ -159,17 +162,46 @@ public class BoardManager : MonoBehaviour
             tempGM[i] = tempGM[randomIndex];
             tempGM[randomIndex] = temp;
         }
-        
-        // Move the game peice to the new postion
-        
+
+        // search through and find the temp position for the item that will
+        // replace the last peice
+        Vector3 tempPos = new Vector3();
+        // go thre new temp array and find the spawn point that is in the snap offset position
+        foreach(GameObject gm in tempGM)
+        {
+            if(gm.GetComponent<SpawnPoint>().spawnIndex == snapOffset)
+            {
+                tempPos = gm.transform.position;
+            }
+        }
+
+        // Move the game peice to the new postion        
         int j = 0;
         foreach (GameObject t in gamePeices)
         {
-            print(j);
-            t.transform.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
+            
+            if(t.GetComponent<GamePeice>().peiceIndex == snapOffset)
+            {
+                print(t.GetComponent<GamePeice>().peiceIndex);
+                print(snapOffset);
+                // dont move the peice
+            } else
+            {
+                // move the peice and if index of the snap point is the snap offset then move there
+                if(tempGM[j].GetComponent<SpawnPoint>().spawnIndex == snapOffset)
+                {
+                    // move the the 
+                    t.transform.position = new Vector3(tempPos.x, tempPos.y , tempPos.z);
+                } else
+                {
+                    t.transform.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
+                }
+
+            }
+            
             j++;
         }
-        
+
     }
 
     // Check if the peices are all in their correct spots
