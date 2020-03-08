@@ -190,6 +190,7 @@ public class BoardManager : MonoBehaviour
                 // move the peice and if index of the snap point is the snap offset then move there
                 if(tempGM[j].GetComponent<SpawnPoint>().spawnIndex == snapOffset)
                 {
+                    print("MOVE TO TEMP" + tempPos);
                     // move the the 
                     t.transform.position = new Vector3(tempPos.x, tempPos.y , tempPos.z);
                 } else
