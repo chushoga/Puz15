@@ -19,7 +19,8 @@ public class BoardManager : MonoBehaviour
     // PRIVATE -- Variables
     private Shader unlit; // unlit texture for the peices
     private float cameraPadding = 1.15f; // How much padding for the camera
-    private List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
+    public List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
+    private List<GameObject> origSpawnPoints = new List<GameObject>(); // kept for resetting the orig positions of the spawn points
     private List<GameObject> gamePeices = new List<GameObject>(); // need to initialize fields when they are private
 
     // Start is called before the first frame update
@@ -58,6 +59,7 @@ public class BoardManager : MonoBehaviour
                 GameObject sp = Instantiate(snapPoint, new Vector3(i, j, 0f), snapPoint.transform.rotation);
                 sp.transform.SetParent(hk_SNAP.transform); // set to a parent for housekeeping
                 sp.GetComponent<SpawnPoint>().spawnIndex = counter;
+                sp.name = sp.GetComponent<SpawnPoint>().spawnIndex + "_spawnPoint";
                 spawnPoints.Add(sp);
                 counter++;
             }
@@ -150,11 +152,31 @@ public class BoardManager : MonoBehaviour
     // Shuffle the board up
     public void ShuffleBoard()
     {
+
         int snapOffset = (puzzleSize * puzzleSize) - (puzzleSize - 1);
 
         // Randomize the spawnpoints and put into a temp snap point location
-        List<GameObject> tempGM = spawnPoints;
-        
+        List<GameObject> tempGM = new List<GameObject>(spawnPoints);
+
+        // --------------------------------------------------------------------------------------------
+        // RESET POSTION FIRST FOR ALL PEICES
+        // Move the game peice to the new postion        
+        int a = 0;
+        foreach (GameObject t in gamePeices)
+        {
+
+            if (t.GetComponent<GamePeice>().peiceIndex == tempGM[a].GetComponent<SpawnPoint>().spawnIndex)
+            {
+                // move to 
+                t.transform.position = new Vector3(tempGM[a].transform.position.x, tempGM[a].transform.position.y, tempGM[a].transform.position.z);
+
+            }
+
+            a++;
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // SHUFFLE
         for (int i = 0; i < tempGM.Count; i++)
         {
             GameObject temp = tempGM[i];
@@ -165,14 +187,21 @@ public class BoardManager : MonoBehaviour
 
         // search through and find the temp position for the item that will
         // replace the last peice
-        Vector3 tempPos = new Vector3();
+        Vector3 finalPeicePos = new Vector3();
+
+        int n = 1; // counter
+
         // go thre new temp array and find the spawn point that is in the snap offset position
         foreach(GameObject gm in tempGM)
         {
-            if(gm.GetComponent<SpawnPoint>().spawnIndex == snapOffset)
+            if(n == snapOffset)
             {
-                tempPos = gm.transform.position;
+                finalPeicePos = gm.transform.position;
+                print(gm.transform.position);
+                finalPeicePos.z = 2.0f;
             }
+
+            n++;            
         }
 
         // Move the game peice to the new postion        
@@ -184,15 +213,16 @@ public class BoardManager : MonoBehaviour
             {
                 print(t.GetComponent<GamePeice>().peiceIndex);
                 print(snapOffset);
-                // dont move the peice
+                t.transform.position = new Vector3(spawnPoints[snapOffset].transform.position.x, spawnPoints[snapOffset].transform.position.y, spawnPoints[snapOffset].transform.position.z);
+
             } else
             {
                 // move the peice and if index of the snap point is the snap offset then move there
                 if(tempGM[j].GetComponent<SpawnPoint>().spawnIndex == snapOffset)
                 {
-                    print("MOVE TO TEMP" + tempPos);
+                    print("MOVE TO TEMP" + finalPeicePos);
                     // move the the 
-                    t.transform.position = new Vector3(tempPos.x, tempPos.y , tempPos.z);
+                    t.transform.position = new Vector3(finalPeicePos.x, finalPeicePos.y , finalPeicePos.z);
                 } else
                 {
                     t.transform.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);

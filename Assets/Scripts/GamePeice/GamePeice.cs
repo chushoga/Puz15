@@ -44,26 +44,22 @@ public class GamePeice : MonoBehaviour
         float dot = Vector3.Dot(direction, Vector3.up); // get a 0-1f vector 3 from the direction to decide which way.
         if (dot > 0.5)
         {
-            CheckTargetPosition("UP"); // check if there is a hit up.
-            UpdateTotalMoves();
+            CheckTargetPosition("UP"); // check if there is a hit up.            
         }
         else if (dot < -0.5)
         {
-            CheckTargetPosition("DOWN"); // check if there is a hit down.
-            UpdateTotalMoves();
+            CheckTargetPosition("DOWN"); // check if there is a hit down.            
         }
         else
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
             dot = Vector3.Dot(direction, Vector3.right);
             if (dot > 0.5)
             {
-                CheckTargetPosition("RIGHT"); // check if there is a hit right.
-                UpdateTotalMoves();
+                CheckTargetPosition("RIGHT"); // check if there is a hit right.                
             }
             else if (dot < -0.5)
             {
-                CheckTargetPosition("LEFT"); // check if there is a hit left.
-                UpdateTotalMoves();
+                CheckTargetPosition("LEFT"); // check if there is a hit left.               
             }
         }
 
@@ -136,6 +132,7 @@ public class GamePeice : MonoBehaviour
             {
                 //GameManager.FindObjectOfType<GameManager>().totalMoves += 1; // increase the move counter
                 moveToTarget = true; // Hit! Set move to target to true.
+                UpdateTotalMoves();
             }
             else
             {
