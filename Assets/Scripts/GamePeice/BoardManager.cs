@@ -20,7 +20,7 @@ public class BoardManager : MonoBehaviour
     private Shader unlit; // unlit texture for the peices
     private float cameraPadding = 1.15f; // How much padding for the camera
     public List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
-    private List<GameObject> origSpawnPoints = new List<GameObject>(); // kept for resetting the orig positions of the spawn points
+    private Vector3 lastPeicePos = new Vector3(); // position of last peice
     private List<GameObject> gamePeices = new List<GameObject>(); // need to initialize fields when they are private
 
     // Start is called before the first frame update
@@ -140,6 +140,7 @@ public class BoardManager : MonoBehaviour
         {
             if(child.GetComponent<GamePeice>().peiceIndex == ((puzzleSize * puzzleSize) - (puzzleSize - 1)))
             {
+                lastPeicePos = child.transform.position;
                 child.gameObject.SetActive(false);
             }
         }
@@ -157,7 +158,7 @@ public class BoardManager : MonoBehaviour
 
         // Randomize the spawnpoints and put into a temp snap point location
         List<GameObject> tempGM = new List<GameObject>(spawnPoints);
-
+        
         // --------------------------------------------------------------------------------------------
         // RESET POSTION FIRST FOR ALL PEICES
         // Move the game peice to the new postion        
@@ -184,10 +185,10 @@ public class BoardManager : MonoBehaviour
             tempGM[i] = tempGM[randomIndex];
             tempGM[randomIndex] = temp;
         }
-
+        
         // search through and find the temp position for the item that will
         // replace the last peice
-        Vector3 finalPeicePos = new Vector3();
+        Vector3 switchPeicePos = new Vector3();
 
         int n = 1; // counter
 
@@ -196,43 +197,55 @@ public class BoardManager : MonoBehaviour
         {
             if(n == snapOffset)
             {
-                finalPeicePos = gm.transform.position;
+                switchPeicePos = gm.transform.position;
                 print(gm.transform.position);
-                finalPeicePos.z = 2.0f;
+                switchPeicePos.z = 2.0f;
             }
 
             n++;            
         }
-
+       
         // Move the game peice to the new postion        
         int j = 0;
         foreach (GameObject t in gamePeices)
         {
-            
-            if(t.GetComponent<GamePeice>().peiceIndex == snapOffset)
+            if(t.GetComponent<GamePeice>().peiceIndex == j)
             {
-                print(t.GetComponent<GamePeice>().peiceIndex);
-                print(snapOffset);
-                t.transform.position = new Vector3(spawnPoints[snapOffset].transform.position.x, spawnPoints[snapOffset].transform.position.y, spawnPoints[snapOffset].transform.position.z);
-
-            } else
-            {
-                // move the peice and if index of the snap point is the snap offset then move there
-                if(tempGM[j].GetComponent<SpawnPoint>().spawnIndex == snapOffset)
-                {
-                    print("MOVE TO TEMP" + finalPeicePos);
-                    // move the the 
-                    t.transform.position = new Vector3(finalPeicePos.x, finalPeicePos.y , finalPeicePos.z);
-                } else
-                {
-                    t.transform.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
-                }
-
+                print(spawnPoints + ":" + t.GetComponent<GamePeice>().peiceIndex);
+                /*
+                t.transform.position = new Vector3(
+                    spawnPoints[j].transform.position.x,
+                    spawnPoints[j].transform.position.y,
+                    spawnPoints[j].transform.position.z
+                );
+                */
             }
-            
+            /*
+           if(t.GetComponent<GamePeice>().peiceIndex == snapOffset)
+           {
+               print(t.GetComponent<GamePeice>().peiceIndex);
+               print(snapOffset);
+               t.transform.position = lastPeicePos;
+
+           }else
+           {
+
+               // move the peice and if index of the snap point is the snap offset then move there
+               if(tempGM[j].GetComponent<SpawnPoint>().spawnIndex == snapOffset)
+               {
+                   print("MOVE TO TEMP" + switchPeicePos);
+                   // move the the 
+                   //t.transform.position = new Vector3(switchPeicePos.x, switchPeicePos.y , switchPeicePos.z);
+               } else
+               {
+                  // t.transform.position = new Vector3(tempGM[j].transform.position.x, tempGM[j].transform.position.y, tempGM[j].transform.position.z);
+               }
+
+           }*/
+
             j++;
         }
-
+       
     }
 
     // Check if the peices are all in their correct spots
