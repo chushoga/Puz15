@@ -9,7 +9,7 @@ public class GamePeice : MonoBehaviour
     public bool correctPos = false; // Is this the correct final postion?
 
     // Movement variables.
-    private bool moveToTarget = false;
+    public bool moveToTarget = false;
     private RaycastHit hitPosition;
     private Vector3 mouseDelta; // The current mouse position - last mouse position.
     private Vector3 lastMouseCoordinate; // The last mouse position.
