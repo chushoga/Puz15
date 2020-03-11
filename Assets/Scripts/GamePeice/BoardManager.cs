@@ -210,14 +210,15 @@ public class BoardManager : MonoBehaviour
             */
             
         }
-        
 
-// --------------------------------------------------------------------------------------------
 
-       
-        
-// --------------------------------------------------------------------------------------------
+        // --------------------------------------------------------------------------------------------
+
+
+
+        // --------------------------------------------------------------------------------------------
         // Move the game peices to the new random postion        
+        Vector3 switchPos = new Vector3();
         int j = 0;
         foreach (GameObject t in gamePeices)
         {
@@ -228,24 +229,36 @@ public class BoardManager : MonoBehaviour
                 tempGMpos[j].z
             );
 
+            if(j == (snapOffset-1))
+            {
+               // t.transform.position = new Vector3(t.transform.position.x, t.transform.position.y, -2.0f);
+                switchPos = t.transform.position;
+                
+            }
+
             j++;
         }
 
         //gamePeices[snapOffset].transform.position = new Vector3(switchPeicePos.x, switchPeicePos.y, switchPeicePos.z + 1.0f);
-        Vector3 switchPos = new Vector3();
-         int z = 1;
+       
+         int z = 0;
          foreach (GameObject t in gamePeices)
          {
              if (t.GetComponent<GamePeice>().peiceIndex == snapOffset)
-             {   
+             {
+                //print(gamePeices[z].transform.position);
                  //t.transform.position = new Vector3(switchPeicePos.x, switchPeicePos.y, switchPeicePos.z - 2f);
-                 print(t.GetComponent<GamePeice>().peiceIndex);
-                switchPos = t.GetComponent<GamePeice>().transform.position;
-                t.transform.position = switchPos;
+                //print(t.GetComponent<GamePeice>().peiceIndex);
+                //switchPos = t.GetComponent<GamePeice>().transform.position;
+                //t.transform.position = switchPos;
                 //t.transform.position = lastPeicePos;
             }
+
+             if(t.GetComponent<GamePeice>().peiceIndex == snapOffset)
              z++;
          }
+
+         // go through the spawn grid and 
 
         /*
 
