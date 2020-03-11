@@ -18,7 +18,7 @@ public class BoardManager : MonoBehaviour
 
     // PRIVATE -- Variables
     private Shader unlit; // unlit texture for the peices
-    private float cameraPadding = 1.15f; // How much padding for the camera
+    private float cameraPadding = 1.10f; // How much padding for the camera
     public List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
     private Vector3 lastPeicePos = new Vector3(); // position of last peice
     private List<GameObject> gamePeices = new List<GameObject>(); // need to initialize fields when they are private
@@ -246,15 +246,26 @@ public class BoardManager : MonoBehaviour
          {
              if (t.GetComponent<GamePeice>().peiceIndex == snapOffset)
              {
-                //print(gamePeices[z].transform.position);
+                print(gamePeices[z].transform.position);
                  //t.transform.position = new Vector3(switchPeicePos.x, switchPeicePos.y, switchPeicePos.z - 2f);
                 //print(t.GetComponent<GamePeice>().peiceIndex);
                 //switchPos = t.GetComponent<GamePeice>().transform.position;
                 //t.transform.position = switchPos;
                 //t.transform.position = lastPeicePos;
             }
+            // move the bottom right to the switch pos
+            
+            if (t.transform.position.x == puzzleSize - 1 && t.transform.position.y == 0f)
+            {
+                print(t.transform.position);
+                t.transform.position = new Vector3(switchPos.x, switchPos.y, switchPos.z);
+            }
 
+             // move empty peice to the bottom right.
              if(t.GetComponent<GamePeice>().peiceIndex == snapOffset)
+            {   
+                t.transform.position = new Vector3(lastPeicePos.x, lastPeicePos.y, lastPeicePos.z);
+            }
              z++;
          }
 
