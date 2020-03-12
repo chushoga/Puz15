@@ -19,9 +19,10 @@ public class BoardManager : MonoBehaviour
     // PRIVATE -- Variables
     private Shader unlit; // unlit texture for the peices
     private float cameraPadding = 1.10f; // How much padding for the camera
-    public List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
+    private List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
     private Vector3 lastPeicePos = new Vector3(); // position of last peice
     private List<GameObject> gamePeices = new List<GameObject>(); // need to initialize fields when they are private
+    private List<Vector3> origPos = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
@@ -118,6 +119,7 @@ public class BoardManager : MonoBehaviour
                 gm.transform.SetParent(hk_PEICES.transform); // set the parent of the peices for housekeeping
 
                 gamePeices.Add(gm); // add game peice to a list for shuffling and checking if game is finsished
+                origPos.Add(new Vector3(gm.transform.position.x, gm.transform.position.y, gm.transform.position.z));
 
                 counter++;
             }
@@ -229,10 +231,8 @@ public class BoardManager : MonoBehaviour
          {
             
             // move the bottom right to the switch pos
-            
             if (t.transform.position.x == puzzleSize - 1 && t.transform.position.y == 0f)
             {
-                print(t.transform.position);
                 t.transform.position = new Vector3(switchPos.x, switchPos.y, switchPos.z);
             }
 
@@ -250,6 +250,23 @@ public class BoardManager : MonoBehaviour
     public void CheckPositions()
     {
         // update the GamePeice correctPos = true if the peice location matches the 
+        for(int i = 0; i < gamePeices.Count; i++)
+        {
+            if (gamePeices[i].transform.position == origPos[i])
+            {
+                gamePeices[i].GetComponent<GamePeice>().correctPos = true;
+                print(gamePeices[i].GetComponent<GamePeice>().correctPos);
+                gamePeices[i].transform.GetChild(0).gameObject.SetActive(true);
+            } else
+            {
+                gamePeices[i].GetComponent<GamePeice>().correctPos = false;
+                gamePeices[i].transform.GetChild(0).gameObject.SetActive(false);
+            }
+
+            
+
+        }
+        
     }
 
 }

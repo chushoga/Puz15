@@ -5,6 +5,9 @@ using TMPro;
 
 public class GamePeice : MonoBehaviour
 {
+
+    BoardManager bm;
+
     public int peiceIndex; // index of the peice starting from 1 to max size
     public bool correctPos = false; // Is this the correct final postion?
 
@@ -20,7 +23,7 @@ public class GamePeice : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        bm = GameObject.Find("BoardManager").GetComponent<BoardManager>();
     }
 
     // When the mouse is held down on theis peice...
@@ -96,6 +99,8 @@ public class GamePeice : MonoBehaviour
         if (Vector3.Equals(transform.position,targetPos.transform.position) == true)
         {
             moveToTarget = false; // set movement flag to false to stop movement. This is checked in the update function.
+            // check if the correct position for all peices
+            bm.CheckPositions();
         }
         
     }

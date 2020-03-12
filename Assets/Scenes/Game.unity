@@ -1115,7 +1115,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5833463913304078, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
       propertyPath: puzzleSize
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5833463913304079, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
       propertyPath: m_LocalPosition.x
