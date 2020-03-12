@@ -90,7 +90,7 @@ public class GamePeice : MonoBehaviour
     private void MoveToPosition(RaycastHit targetPos)
     {  
         // Move to the new position with a lerp.
-        transform.position = Vector3.Lerp(transform.position, targetPos.transform.position, movementSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos.transform.position, movementSpeed * Time.deltaTime);
                 
         // If the position is about = to the target then stop moving.
         if (Vector3.Equals(transform.position,targetPos.transform.position) == true)

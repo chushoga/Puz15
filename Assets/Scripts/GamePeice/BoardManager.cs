@@ -201,21 +201,8 @@ public class BoardManager : MonoBehaviour
 
             tempGMindex[i] = tempGMindex[randomIndex];
             tempGMindex[randomIndex] = tempIndex;
-            /*
-            GameObject temp = tempGM[i];
-            temp.name = i + "_tempSnap";
-            int randomIndex = Random.Range(i, tempGM.Count);
-            tempGM[i] = tempGM[randomIndex];
-            tempGM[randomIndex] = temp;
-            */
-            
+       
         }
-
-
-        // --------------------------------------------------------------------------------------------
-
-
-
         // --------------------------------------------------------------------------------------------
         // Move the game peices to the new random postion        
         Vector3 switchPos = new Vector3();
@@ -231,28 +218,16 @@ public class BoardManager : MonoBehaviour
 
             if(j == (snapOffset-1))
             {
-               // t.transform.position = new Vector3(t.transform.position.x, t.transform.position.y, -2.0f);
                 switchPos = t.transform.position;
-                
             }
 
             j++;
         }
-
-        //gamePeices[snapOffset].transform.position = new Vector3(switchPeicePos.x, switchPeicePos.y, switchPeicePos.z + 1.0f);
        
          int z = 0;
          foreach (GameObject t in gamePeices)
          {
-             if (t.GetComponent<GamePeice>().peiceIndex == snapOffset)
-             {
-                print(gamePeices[z].transform.position);
-                 //t.transform.position = new Vector3(switchPeicePos.x, switchPeicePos.y, switchPeicePos.z - 2f);
-                //print(t.GetComponent<GamePeice>().peiceIndex);
-                //switchPos = t.GetComponent<GamePeice>().transform.position;
-                //t.transform.position = switchPos;
-                //t.transform.position = lastPeicePos;
-            }
+            
             // move the bottom right to the switch pos
             
             if (t.transform.position.x == puzzleSize - 1 && t.transform.position.y == 0f)
@@ -268,46 +243,6 @@ public class BoardManager : MonoBehaviour
             }
              z++;
          }
-
-         // go through the spawn grid and 
-
-        /*
-
-        // Trade the switchPeice with the last peice   
-        foreach (GameObject t in gamePeices)
-        {
-            // 1. Move last peice to last peice position
-            if (t.GetComponent<GamePeice>().peiceIndex == snapOffset)
-            {
-                t.transform.position = lastPeicePos;
-            }
-        }
-        */
-
-        /*
-         * if (t.GetComponent<GamePeice>().peiceIndex == switchPeicePos)
-        {
-            t.transform.position = tempGM[snapOffset].transform.position;
-        }
-        */
-
-
-        // 2. Move the switch places peice with the switchPeicePos
-        /*
-        if (t.GetComponent<GamePeice>().peiceIndex == switchPeicePos)
-        {
-            t.transform.position = tempGM[z].transform.position;
-        }
-        */
-        /*
-        t.transform.position = new Vector3(
-            tempGM[z].transform.position.x,
-            tempGM[z].transform.position.y,
-            tempGM[z].transform.position.z
-        );
-        */
-
-
     }
 
     // Check if the peices are all in their correct spots
