@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -243,28 +244,40 @@ public class BoardManager : MonoBehaviour
             }
              z++;
          }
+
+        CheckPositions();
     }
 
     // Check if the peices are all in their correct spots
     // Check after each move.
     public void CheckPositions()
     {
+
+        bool isComplete = true;
+
         // update the GamePeice correctPos = true if the peice location matches the 
         for(int i = 0; i < gamePeices.Count; i++)
         {
-            if (gamePeices[i].transform.position == origPos[i])
+            if (gamePeices[i].transform.position != origPos[i])
             {
                 gamePeices[i].GetComponent<GamePeice>().correctPos = true;
-                print(gamePeices[i].GetComponent<GamePeice>().correctPos);
                 gamePeices[i].transform.GetChild(0).gameObject.SetActive(true);
+                isComplete = false;
             } else
             {
                 gamePeices[i].GetComponent<GamePeice>().correctPos = false;
                 gamePeices[i].transform.GetChild(0).gameObject.SetActive(false);
             }
+           
+        }
 
-            
-
+        // check if the all Complete and show end game screen with stats
+        if (isComplete)
+        {
+            int snapOffset = (puzzleSize * puzzleSize) - (puzzleSize);
+            gamePeices[snapOffset].SetActive(true);
+            GameManager gm = GameObject.Find("GameManager").gameObject.GetComponent<GameManager>();
+            gm.totalMovesTxt.GetComponentInChildren<TextMeshProUGUI>().text = "GAME END!! TOTAL MOVES: " + gm.totalMoves;
         }
         
     }
