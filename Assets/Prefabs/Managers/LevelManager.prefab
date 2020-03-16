@@ -43,3 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94f65bf71a45d446ad87a30c2b7c930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puzzleImages:
+  - {fileID: 21300000, guid: cab02033e53851048818fe3ec4ea67a2, type: 3}
+  - {fileID: 21300000, guid: dd8af1c30209fc840a15c188e67c35d5, type: 3}

@@ -6,6 +6,14 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    // list of images available to the user
+    public List<Sprite> puzzleImages;
+
+    private void Start()
+    {
+        
+    }
+
     public void LoadScene(string name) {
         SceneManager.LoadScene(name);
     }

@@ -1105,6 +1105,10 @@ PrefabInstance:
       value: BoardManager
       objectReference: {fileID: 0}
     - target: {fileID: 5833463913304078, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
+      propertyPath: puzzleImages.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833463913304078, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
       propertyPath: bg
       value: 
       objectReference: {fileID: 0}
@@ -1117,6 +1121,21 @@ PrefabInstance:
       propertyPath: puzzleSize
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5833463913304078, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
+      propertyPath: buttonOverlayTexture
+      value: 
+      objectReference: {fileID: 5876289762729116957, guid: e26ea11d2cb884141beacb2c6c67beef,
+        type: 3}
+    - target: {fileID: 5833463913304078, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
+      propertyPath: puzzleImages.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: dd8af1c30209fc840a15c188e67c35d5,
+        type: 3}
+    - target: {fileID: 5833463913304078, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
+      propertyPath: puzzleImages.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: cab02033e53851048818fe3ec4ea67a2,
+        type: 3}
     - target: {fileID: 5833463913304079, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.48
@@ -1159,6 +1178,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5833463913304079, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833465296194387, guid: 5b7816ac6a6473348af9cedecf70ab57, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1938,6 +1961,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1455486307939008951, guid: 9766c341725dc6d4caacaab546e568ca,
+        type: 3}
+      propertyPath: puzzleImages.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1455486307939008951, guid: 9766c341725dc6d4caacaab546e568ca,
+        type: 3}
+      propertyPath: puzzleImages.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: dd8af1c30209fc840a15c188e67c35d5,
+        type: 3}
+    - target: {fileID: 1455486307939008951, guid: 9766c341725dc6d4caacaab546e568ca,
+        type: 3}
+      propertyPath: puzzleImages.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: cab02033e53851048818fe3ec4ea67a2,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9766c341725dc6d4caacaab546e568ca, type: 3}
 --- !u!114 &2046990062 stripped

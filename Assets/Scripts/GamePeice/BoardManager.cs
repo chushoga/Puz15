@@ -11,13 +11,16 @@ public class BoardManager : MonoBehaviour
     
     // PUBLIC -- Puzzle peice variables
     public int puzzleSize; // How many tiles ie: 4x4.
-    public GameObject puzzleImage; // The image to project.
+    
     public GameObject puzzleProjectorCam; // Prefab of camera that projects the texture.
     public GameObject gamePeice; // the game peice
     public GameObject snapPoint; // snap point for prefab
     public GameObject backgroundImage; // backgrouind image
+    public GameObject buttonOverlayTexture; // button overlay texture
+    public GameObject lm;
 
     // PRIVATE -- Variables
+    private GameObject puzzleImage;
     private Shader unlit; // unlit texture for the peices
     private float cameraPadding = 1.10f; // How much padding for the camera
     private List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
@@ -25,9 +28,29 @@ public class BoardManager : MonoBehaviour
     private List<GameObject> gamePeices = new List<GameObject>(); // need to initialize fields when they are private
     private List<Vector3> origPos = new List<Vector3>();
 
+    // HOUSEKEEPING
+
+    private GameObject hk_SNAP; // Housekeeping parent for the peices
+    private GameObject hk_CAMERA; // Housekeeping parent for the render cameras
+    private GameObject hk_PEICES; // Housekeeping parent for the peices
+    private GameObject hk_OVERLAY; // Housekeeping parent for the overlay textures
+
     // Start is called before the first frame update
     void Start()
     {
+        // Level manager reference
+        lm = GameObject.Find("LevelManager");
+
+        // Get reference to the puzzleImage
+        puzzleImage = GameObject.Find("puzzleImage");
+
+        hk_SNAP = new GameObject("hk_SNAP");// Housekeeping parent for the peices
+        hk_CAMERA = new GameObject("hk_CAMERA");// Housekeeping parent for the render cameras
+        hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
+        hk_OVERLAY = new GameObject("hk_OVERLAY"); // Housekeeping parent for the overlay textures
+
+    // Set the image with the user choice.
+    puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = lm.GetComponent<LevelManager>().puzzleImages[0];
         CreateBoard();
         LoadPeices();
         UpdateCamera();
@@ -49,7 +72,6 @@ public class BoardManager : MonoBehaviour
     // Create the play board
     void CreateBoard()
     {
-        GameObject hk_SNAP = new GameObject("hk_SNAP");// Housekeeping parent for the peices
 
         int counter = 1;
         // Create peices from the loop
@@ -80,8 +102,6 @@ public class BoardManager : MonoBehaviour
 
         float newOrthoScale = 1.0f / (float)puzzleSize; // set the ortho scale
         float newOrthoSize = newOrthoScale * 0.5f; // get the new ortho camera size based off the scale / puzzle width and height
-        GameObject hk_CAMERA = new GameObject("hk_CAMERA");// Housekeeping parent for the render cameras
-        GameObject hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
 
         // Instantiate puzzleSize x puzzleSize count of puzleProjector Cameras.
         int counter = 1;
@@ -89,9 +109,43 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j <= puzzleSize - 1; j++)
             {
+                // -----------------
+                // CAMERA
+                // -----------------
+                // Create a new camera for the projected texture.
                 GameObject newCam = Instantiate(puzzleProjectorCam, puzzleImage.transform.position, Quaternion.identity);
-                newCam.GetComponent<Camera>().orthographicSize = newOrthoSize; // Set the orthographic camera size
 
+                // Set the orthographic camera size.
+                newCam.GetComponent<Camera>().orthographicSize = newOrthoSize;
+
+                // Move half a square up and over to start.
+                newCam.transform.Translate((newOrthoScale / 2), (newOrthoScale / 2), -1f);
+
+                // Calculate the new x and y position of the projector cameras.
+                float newPosX = (newOrthoScale) * i;
+                float newPosY = (newOrthoScale) * j;
+
+                // Move the camera to the correct position.
+                newCam.transform.Translate(newPosX, newPosY, 0f);
+
+                // set parent of the newCam for housekeeping
+                newCam.transform.SetParent(hk_CAMERA.transform);
+
+                // -----------------
+                // OVERLAY TEXTURE
+                // -----------------
+                Vector3 newOverlayPos = new Vector3(newCam.transform.position.x, newCam.transform.position.y, -0.1f);
+                GameObject overlayTexture = Instantiate(buttonOverlayTexture, newOverlayPos, Quaternion.identity);
+                float newSize = 1 / (float)puzzleSize;
+                overlayTexture.transform.localScale = new Vector3(newSize, newSize, 1f);
+                overlayTexture.SetActive(false);
+
+                // add to housekeeping parent
+                overlayTexture.transform.SetParent(hk_OVERLAY.transform);
+
+                // -----------------
+                // RENDER TEXTURE
+                // -----------------
                 // create a new render texture
                 RenderTexture rt = new RenderTexture(256, 256, 24, RenderTextureFormat.ARGB32);
                 rt.Create(); // create the texture.
@@ -99,32 +153,39 @@ public class BoardManager : MonoBehaviour
                 newCam.GetComponent<Camera>().targetTexture = rt;
                 // check if i need to create a new render texture for this.
                 // match the puzzle peice to the render texture/camera pair
-                // create a new test board from peices
+
+                // -----------------
+                // GAME PEICE
+                // -----------------
+                // Instantiate the game peice.
                 GameObject gm = Instantiate(gamePeice, new Vector3(i, j, 0f), gamePeice.transform.rotation);
+
+                // Set the render texture created for it.
                 gm.GetComponent<Renderer>().material.mainTexture = rt;
 
                 // Set the id of the game peice here so we can do things with them.
                 gm.GetComponent<GamePeice>().peiceIndex = counter;
                                
+                // Find the unlit shader in the project and set it to the texture of the game peice.
                 Shader shader1 = Shader.Find("Unlit/Texture");
+
+                // Set the shader to the game peice.
                 gm.GetComponent<Renderer>().material.shader = shader1;
 
-                // position the camera positon in order of width and height of the puzzle.
-                newCam.transform.Translate((newOrthoScale / 2), (newOrthoScale / 2), -1f); // move half a square up and over to start
+                // Set the parent of the peices for housekeeping.
+                gm.transform.SetParent(hk_PEICES.transform);
 
-                float newPosX = (newOrthoScale) * i;
-                float newPosY = (newOrthoScale) * j;
-                newCam.transform.Translate(newPosX, newPosY, 0f); // move to correct position
+                // Add game peice to a list for shuffling and checking if game is finsished.
+                gamePeices.Add(gm);
 
-                newCam.transform.SetParent(hk_CAMERA.transform); // set parent of the newCam for housekeeping
-                gm.transform.SetParent(hk_PEICES.transform); // set the parent of the peices for housekeeping
-
-                gamePeices.Add(gm); // add game peice to a list for shuffling and checking if game is finsished
+                // Add the original position to a list for checking final positions.
                 origPos.Add(new Vector3(gm.transform.position.x, gm.transform.position.y, gm.transform.position.z));
 
                 counter++;
             }
         }
+
+        // Make an array of render Peices
         Renderer[] rends = hk_PEICES.GetComponentsInChildren<Renderer>();
         
         float x = 0f;
@@ -148,6 +209,7 @@ public class BoardManager : MonoBehaviour
             }
         }
   
+        // Move the main camer position to the center of the puzzle.
         Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
 
     }
@@ -253,6 +315,7 @@ public class BoardManager : MonoBehaviour
     public void CheckPositions()
     {
 
+        // boolean to use as reference when checking if the peice is in the correct position.
         bool isComplete = true;
 
         // update the GamePeice correctPos = true if the peice location matches the 
@@ -260,18 +323,20 @@ public class BoardManager : MonoBehaviour
         {
             if (gamePeices[i].transform.position != origPos[i])
             {
+                // show the overlay texture because it is not in the correct postion naymore.
                 gamePeices[i].GetComponent<GamePeice>().correctPos = true;
-                gamePeices[i].transform.GetChild(0).gameObject.SetActive(true);
+                hk_OVERLAY.transform.GetChild(i).gameObject.SetActive(true);
                 isComplete = false;
             } else
             {
+                // Hide the overlay because it is in the correct postion now.
                 gamePeices[i].GetComponent<GamePeice>().correctPos = false;
-                gamePeices[i].transform.GetChild(0).gameObject.SetActive(false);
+                hk_OVERLAY.transform.GetChild(i).gameObject.SetActive(false);
             }
            
         }
 
-        // check if the all Complete and show end game screen with stats
+        // Check if the whole puzzle is complete and show the game clear screen with stats.4
         if (isComplete)
         {
             int snapOffset = (puzzleSize * puzzleSize) - (puzzleSize);

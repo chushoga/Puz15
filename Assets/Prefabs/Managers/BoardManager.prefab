@@ -134,6 +134,9 @@ MonoBehaviour:
     type: 3}
   snapPoint: {fileID: 7839659726256251933, guid: fc85126fe2315cc41bc5e84bed64f4b6,
     type: 3}
+  backgroundImage: {fileID: 0}
+  buttonOverlayTexture: {fileID: 5876289762729116957, guid: e26ea11d2cb884141beacb2c6c67beef,
+    type: 3}
 --- !u!1 &5833464432002451
 GameObject:
   m_ObjectHideFlags: 0
