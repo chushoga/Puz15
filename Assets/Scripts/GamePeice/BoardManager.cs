@@ -49,8 +49,8 @@ public class BoardManager : MonoBehaviour
         hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
         hk_OVERLAY = new GameObject("hk_OVERLAY"); // Housekeeping parent for the overlay textures
 
-    // Set the image with the user choice.
-    puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = lm.GetComponent<LevelManager>().puzzleImages[0];
+        // Set the image with the user choice.
+        puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = lm.GetComponent<LevelManager>().puzzleImages[1];
         CreateBoard();
         LoadPeices();
         UpdateCamera();
