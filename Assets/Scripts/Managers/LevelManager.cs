@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(name);
     }
 
-    public void testMe(string name)
+    public void PersistantData(string name)
     {
        
         LoadScene(name);
