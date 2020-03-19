@@ -11,9 +11,14 @@ public class ButtonGameSize : MonoBehaviour
     // PRIVATE
     private TextMesh txt;
 
+    public void SetPuzzleSize()
+    {
+        DataManager.PuzzleSize = boardSize;
+    }
+
     private void Start()
     {
-        
+        gameObject.GetComponentInChildren<TextMeshProUGUI>().text = boardSize + "x" + boardSize;
     }
 
 }

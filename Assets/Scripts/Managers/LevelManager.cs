@@ -18,12 +18,6 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(name);
     }
 
-    public void PersistantData(string name)
-    {
-       
-        LoadScene(name);
-    }
-
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

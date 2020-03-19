@@ -35,6 +35,11 @@ public class BoardManager : MonoBehaviour
     private GameObject hk_PEICES; // Housekeeping parent for the peices
     private GameObject hk_OVERLAY; // Housekeeping parent for the overlay textures
 
+    private void Awake()
+    {
+        puzzleSize = DataManager.PuzzleSize;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
