@@ -14,6 +14,7 @@ public class ButtonGameSize : MonoBehaviour
     public void SetPuzzleSize()
     {
         DataManager.PuzzleSize = boardSize;
+        print(boardSize);
     }
 
     private void Start()

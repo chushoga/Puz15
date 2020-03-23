@@ -18,6 +18,7 @@ public class BoardManager : MonoBehaviour
     public GameObject backgroundImage; // backgrouind image
     public GameObject buttonOverlayTexture; // button overlay texture
     public GameObject lm;
+    public GameObject im;
 
     // PRIVATE -- Variables
     private GameObject puzzleImage;
@@ -45,6 +46,7 @@ public class BoardManager : MonoBehaviour
     {
         // Level manager reference
         lm = GameObject.Find("LevelManager");
+        im = GameObject.Find("ImageManager");
 
         // Get reference to the puzzleImage
         puzzleImage = GameObject.Find("puzzleImage");
@@ -55,7 +57,8 @@ public class BoardManager : MonoBehaviour
         hk_OVERLAY = new GameObject("hk_OVERLAY"); // Housekeeping parent for the overlay textures
 
         // Set the image with the user choice.
-        puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = lm.GetComponent<LevelManager>().puzzleImages[1];
+        puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().imageList[DataManager.ImageIndex];
+        //print(DataManager.ImageIndex);
         CreateBoard();
         LoadPeices();
         UpdateCamera();

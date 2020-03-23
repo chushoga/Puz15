@@ -46,3 +46,5 @@ MonoBehaviour:
   imageList:
   - {fileID: 21300000, guid: 69775baa33371424192bfce93efb8fc0, type: 3}
   - {fileID: 21300000, guid: d5090f02b4badff4084afb1bec0752c0, type: 3}
+  btnPuzzleImage: {fileID: 8516056149074252595, guid: e7014415899fcf94196d5600a73dec82,
+    type: 3}
