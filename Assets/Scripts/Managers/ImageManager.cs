@@ -17,7 +17,7 @@ public class ImageManager : MonoBehaviour
         {
             guiCont = GameObject.Find("Content");
             // Load up the images from the image List into the scrolling content.
-            print("load up the images");
+            //print("load up the images");
             LoadImages();
         }
     }

@@ -17,7 +17,7 @@ public class ImageButton : MonoBehaviour
     public void SetImageIndex()
     {
         DataManager.ImageIndex = imageIndex;
-        print(imageIndex);
+        //print(imageIndex);
         HighlightMe(); // Highlight the selected image.
     }
 
