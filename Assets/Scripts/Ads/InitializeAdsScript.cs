@@ -9,13 +9,12 @@ public class InitializeAdsScript : MonoBehaviour
     public string gameId = "3530949";
     public string placementId = "MainMenu";
     public bool testMode = true;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         Advertisement.Initialize(gameId, testMode);
         StartCoroutine(ShowBannerWhenReady());
-        print("test1");
     }
 
     IEnumerator ShowBannerWhenReady()
@@ -28,6 +27,8 @@ public class InitializeAdsScript : MonoBehaviour
         Advertisement.Banner.SetPosition(BannerPosition.TOP_CENTER);
         
         Advertisement.Banner.Show(placementId);
+
     }
+
 
 }
