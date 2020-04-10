@@ -11,7 +11,7 @@ public class ImageManager : MonoBehaviour
 
     private GameObject guiCont;
 
-    private void Start()
+    private void Awake()
     {
         if(SceneManager.GetActiveScene().name == "MainMenu")
         {
