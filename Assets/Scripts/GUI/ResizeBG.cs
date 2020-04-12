@@ -20,7 +20,7 @@ public class ResizeBG : MonoBehaviour
             1);
 
         // ----
-        transform.position = new Vector3(0f, 0f, -5f);
+        transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 5f);
     }
 
 }

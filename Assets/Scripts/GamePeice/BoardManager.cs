@@ -62,7 +62,7 @@ public class BoardManager : MonoBehaviour
         CreateBoard();
         LoadPeices();
         UpdateCamera();
-        //AddBackground();
+        AddBackground();
     }
 
     // Update the camera scale and center on puzzle
