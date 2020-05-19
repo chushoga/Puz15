@@ -7,6 +7,7 @@ public class GamePeice : MonoBehaviour
 {
 
     BoardManager bm;
+    GameManager gm;
 
     public int peiceIndex; // index of the peice starting from 1 to max size
     public bool correctPos = false; // Is this the correct final postion?
@@ -20,10 +21,19 @@ public class GamePeice : MonoBehaviour
     private float mZCoord; // The mouse z position used for mouse position calculations. 
     private float movementSpeed = 15.0f;
 
+    private AudioClip myMoveSound;// move sound
+
+    private void Awake()
+    {
+        myMoveSound = GameObject.Find("SoundManager").GetComponent<SoundManager>().moveSound;
+        gameObject.GetComponent<AudioSource>().clip = myMoveSound;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         bm = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // When the mouse is held down on theis peice...
@@ -94,7 +104,7 @@ public class GamePeice : MonoBehaviour
     {  
         // Move to the new position with a lerp.
         transform.position = Vector3.MoveTowards(transform.position, targetPos.transform.position, movementSpeed * Time.deltaTime);
-                
+        
         // If the position is about = to the target then stop moving.
         if (Vector3.Equals(transform.position,targetPos.transform.position) == true)
         {
@@ -138,6 +148,8 @@ public class GamePeice : MonoBehaviour
                 //GameManager.FindObjectOfType<GameManager>().totalMoves += 1; // increase the move counter
                 moveToTarget = true; // Hit! Set move to target to true.
                 UpdateTotalMoves();
+                // play the move sound
+                gameObject.GetComponent<AudioSource>().Play();
             }
             else
             {

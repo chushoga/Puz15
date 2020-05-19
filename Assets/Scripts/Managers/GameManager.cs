@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private BoardManager bm; // Board Manager - does all the board/peice spawning
     public int totalMoves;
     public GameObject totalMovesTxt;
+    public AudioClip moveSound;
 
     // Start is called before the first frame update
     void Start()

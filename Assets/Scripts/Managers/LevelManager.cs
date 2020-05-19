@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour
         
     public void LoadScene(string name) {
         //SceneManager.LoadScene(name);
-
+        //StartCoroutine(FadeAudioSource.StartFade(AudioSource audioSource, 1f, 0.0f));
         StartLoad(name);
     }
 

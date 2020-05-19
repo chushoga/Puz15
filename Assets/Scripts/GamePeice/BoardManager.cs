@@ -30,7 +30,6 @@ public class BoardManager : MonoBehaviour
     private List<Vector3> origPos = new List<Vector3>();
 
     // HOUSEKEEPING
-
     private GameObject hk_SNAP; // Housekeeping parent for the peices
     private GameObject hk_CAMERA; // Housekeeping parent for the render cameras
     private GameObject hk_PEICES; // Housekeeping parent for the peices
@@ -353,6 +352,14 @@ public class BoardManager : MonoBehaviour
             gm.totalMovesTxt.GetComponentInChildren<TextMeshProUGUI>().text = "CLEAR!! TOTAL MOVES: " + gm.totalMoves;
         }
         
+    }
+
+    // Fade out the start button.
+    public void FadeButton()
+    {
+        GameObject startButton = GameObject.Find("startButton").gameObject;
+        Animator animator = startButton.GetComponent<Animator>(); // Animator for the fade screen
+        animator.SetTrigger("FadeOut"); // trigger the fade out animation
     }
 
 }

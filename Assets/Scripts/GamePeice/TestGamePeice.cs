@@ -14,7 +14,15 @@ public class TestGamePeice : MonoBehaviour
     private Vector3 mOffset;
     private float mZCoord;
 
+    private AudioClip myMoveSound;
+
     private GameObject console;
+
+    private void Awake()
+    {
+        myMoveSound = GameObject.Find("soundManager").GetComponent<testSoundManager>().moveSound;
+        gameObject.GetComponent<AudioSource>().clip = myMoveSound;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +32,7 @@ public class TestGamePeice : MonoBehaviour
 
     private void OnMouseDown()
     {
-        
+        gameObject.GetComponent<AudioSource>().Play();
         mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
         mOffset = gameObject.transform.position - GetMouseWorldPos();
 
@@ -33,6 +41,7 @@ public class TestGamePeice : MonoBehaviour
 
     private void OnMouseUp()
     {
+
         mouseDelta = Input.mousePosition - lastMouseCoordinate;
 
         Vector3 direction = mouseDelta.normalized;
