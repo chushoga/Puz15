@@ -349,7 +349,7 @@ public class BoardManager : MonoBehaviour
             int snapOffset = (puzzleSize * puzzleSize) - (puzzleSize);
             gamePeices[snapOffset].SetActive(true);
             GameManager gm = GameObject.Find("GameManager").gameObject.GetComponent<GameManager>();
-            gm.totalMovesTxt.GetComponentInChildren<TextMeshProUGUI>().text = "CLEAR!! TOTAL MOVES: " + gm.totalMoves;
+            gm.totalMovesTxt.GetComponentInChildren<TextMeshProUGUI>().text = "CLEAR!! "; // + gm.totalMoves;
         }
         
     }
