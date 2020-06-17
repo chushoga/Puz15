@@ -127,7 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzleSize: 8
-  puzzleImage: {fileID: 5833464696508632}
   puzzleProjectorCam: {fileID: 4160353069364937444, guid: 4ef184a61441bcb40b24c8849d80449e,
     type: 3}
   gamePeice: {fileID: 3273319049400123680, guid: 449593648a4a46440ac4da40bcfa1d1b,
@@ -137,6 +136,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 0}
   buttonOverlayTexture: {fileID: 5876289762729116957, guid: e26ea11d2cb884141beacb2c6c67beef,
     type: 3}
+  lm: {fileID: 0}
+  im: {fileID: 0}
 --- !u!1 &5833464432002451
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +208,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 131d95fccb973944f971ed6c4234bb1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b74228d05c5d1c46b10a8c1a5b9a64f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

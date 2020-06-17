@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BoardManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class BoardManager : MonoBehaviour
 
     // PRIVATE -- Variables
     private GameObject puzzleImage;
+    private GameObject borderImage;
     private Shader unlit; // unlit texture for the peices
     private float cameraPadding = 1.10f; // How much padding for the camera
     private List<GameObject> spawnPoints = new List<GameObject>(); // need to initialize fields when they are private
@@ -50,6 +52,9 @@ public class BoardManager : MonoBehaviour
         // Get reference to the puzzleImage
         puzzleImage = GameObject.Find("puzzleImage");
 
+        // Get reference to the borderImage
+        borderImage = GameObject.Find("borderImage");
+
         hk_SNAP = new GameObject("hk_SNAP");// Housekeeping parent for the peices
         hk_CAMERA = new GameObject("hk_CAMERA");// Housekeeping parent for the render cameras
         hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
@@ -57,6 +62,11 @@ public class BoardManager : MonoBehaviour
 
         // Set the image with the user choice.
         puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().imageList[DataManager.ImageIndex];
+
+        // Set the borderImage with the user choice
+        // -3 is the offset for the images in the list
+        borderImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().numberOverlayList[(DataManager.PuzzleSize - 3)];
+
         //print(DataManager.ImageIndex);
         CreateBoard();
         LoadPeices();
@@ -216,7 +226,7 @@ public class BoardManager : MonoBehaviour
             }
         }
   
-        // Move the main camer position to the center of the puzzle.
+        // Move the main camera position to the center of the puzzle.
         Camera.main.transform.position = new Vector3(x, y, Camera.main.transform.position.z);
 
     }

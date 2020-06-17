@@ -100,5 +100,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 704cb12b78e20154f86d07b0f75d8ccb, type: 3}
   - {fileID: 21300000, guid: 8d86f1b61457f0e41ba82e1e6a3d8f13, type: 3}
   - {fileID: 21300000, guid: d813bfaa60e41f54fb630179adf679f2, type: 3}
+  numberOverlayList:
+  - {fileID: 21300000, guid: 4b74228d05c5d1c46b10a8c1a5b9a64f, type: 3}
+  - {fileID: 21300000, guid: f41e35176356eaf43936c0bad3c619bd, type: 3}
+  - {fileID: 21300000, guid: 03251c9a80520104b9f7da75c6816b28, type: 3}
+  - {fileID: 21300000, guid: 45b2a5c2759f41147a391a4065005144, type: 3}
+  - {fileID: 21300000, guid: 266ed7d039f03324eb0a9d584b0fe147, type: 3}
+  - {fileID: 21300000, guid: 34eb3b63f92918a479f92086d741df27, type: 3}
   btnPuzzleImage: {fileID: 8516056149074252595, guid: e7014415899fcf94196d5600a73dec82,
     type: 3}
