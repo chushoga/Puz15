@@ -53,19 +53,29 @@ public class BoardManager : MonoBehaviour
         puzzleImage = GameObject.Find("puzzleImage");
 
         // Get reference to the borderImage
-        borderImage = GameObject.Find("borderImage");
+        borderImage = GameObject.Find("borderOverlay");
 
         hk_SNAP = new GameObject("hk_SNAP");// Housekeeping parent for the peices
         hk_CAMERA = new GameObject("hk_CAMERA");// Housekeeping parent for the render cameras
         hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
         hk_OVERLAY = new GameObject("hk_OVERLAY"); // Housekeeping parent for the overlay textures
 
-        // Set the image with the user choice.
-        puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().imageList[DataManager.ImageIndex];
+        print(DataManager.ImageIndex);
+        if(DataManager.ImageIndex == 0)
+        {
+            //  set the image to the puzzle size index of the grid puzzle image
+            puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().gridImageList[puzzleSize - 3];
+        } else {
+            // Set the image with the user choice.
+            puzzleImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().imageList[DataManager.ImageIndex];
+        }
 
         // Set the borderImage with the user choice
         // -3 is the offset for the images in the list
-        borderImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().numberOverlayList[(DataManager.PuzzleSize - 3)];
+        borderImage.GetComponentInChildren<SpriteRenderer>().sprite = im.GetComponent<ImageManager>().numberOverlayList[puzzleSize-3];
+
+        // hide the border image/numbers
+        ShowHints();
 
         //print(DataManager.ImageIndex);
         CreateBoard();
@@ -372,4 +382,9 @@ public class BoardManager : MonoBehaviour
         animator.SetTrigger("FadeOut"); // trigger the fade out animation
     }
 
+    // Show Hints
+    public void ShowHints()
+    {        
+        borderImage.SetActive(!borderImage.activeInHierarchy);
+    }
 }

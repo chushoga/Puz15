@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ImageManager : MonoBehaviour
 {
     public List<Sprite> imageList; // holds a list of all the images to be used for the puzzles
+    public List<Sprite> gridImageList; // holds a list of all the images if only a grid image is wanted
     public List<Sprite> numberOverlayList; // holds a list of all number overlay sizes for puzzle
     public GameObject btnPuzzleImage;
 
