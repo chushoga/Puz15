@@ -34,7 +34,7 @@ public class ImageButton : MonoBehaviour
         }
 
         // Set the new selected color.
-        gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
+        gameObject.GetComponent<Image>().color = new Color(0f, 1f, 0f, 1f);
 
         
     }
