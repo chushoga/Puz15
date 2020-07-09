@@ -55,27 +55,31 @@ public class GamePeice : MonoBehaviour
         Vector3 direction = mouseDelta.normalized; // Get a direction from the mouseDelta
 
         float dot = Vector3.Dot(direction, Vector3.up); // get a 0-1f vector 3 from the direction to decide which way.
-        if (dot > 0.5)
+
+        // First check if the game has started or not then allow movement.
+        if (gm.gameStarted)
         {
-            CheckTargetPosition("UP"); // check if there is a hit up.            
-        }
-        else if (dot < -0.5)
-        {
-            CheckTargetPosition("DOWN"); // check if there is a hit down.            
-        }
-        else
-        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-            dot = Vector3.Dot(direction, Vector3.right);
             if (dot > 0.5)
             {
-                CheckTargetPosition("RIGHT"); // check if there is a hit right.                
+                CheckTargetPosition("UP"); // check if there is a hit up.            
             }
             else if (dot < -0.5)
             {
-                CheckTargetPosition("LEFT"); // check if there is a hit left.               
+                CheckTargetPosition("DOWN"); // check if there is a hit down.            
+            }
+            else
+            {
+                dot = Vector3.Dot(direction, Vector3.right);
+                if (dot > 0.5)
+                {
+                    CheckTargetPosition("RIGHT"); // check if there is a hit right.                
+                }
+                else if (dot < -0.5)
+                {
+                    CheckTargetPosition("LEFT"); // check if there is a hit left.               
+                }
             }
         }
-
     }
 
     // Update the total moves in the ui

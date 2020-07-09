@@ -50,12 +50,12 @@ public class TestGamePeice : MonoBehaviour
         if (dot > 0.5)
         {
             CheckTargetPosition("UP"); // check if there is a hit up.            
-            print(console.GetComponentInChildren<TextMeshProUGUI>().text = "UP");
+            //print(console.GetComponentInChildren<TextMeshProUGUI>().text = "UP");
         }
         else if (dot < -0.5)
         {
             CheckTargetPosition("DOWN"); // check if there is a hit down.            
-            print(console.GetComponentInChildren<TextMeshProUGUI>().text = "DOWN");
+            //print(console.GetComponentInChildren<TextMeshProUGUI>().text = "DOWN");
         }
         else
         {
@@ -63,12 +63,12 @@ public class TestGamePeice : MonoBehaviour
             if (dot > 0.5)
             {
                 CheckTargetPosition("RIGHT"); // check if there is a hit right.            
-                print(console.GetComponentInChildren<TextMeshProUGUI>().text = "RIGHT");
+                //print(console.GetComponentInChildren<TextMeshProUGUI>().text = "RIGHT");
             }
             else if (dot < -0.5)
             {
                 CheckTargetPosition("LEFT"); // check if there is a hit left.            
-                print(console.GetComponentInChildren<TextMeshProUGUI>().text = "LEFT");
+                //print(console.GetComponentInChildren<TextMeshProUGUI>().text = "LEFT");
             }
         }
     }

@@ -19,7 +19,7 @@ public class InitializeAdsScript : MonoBehaviour
 
     IEnumerator ShowBannerWhenReady()
     {
-        print("test2");
+        //print("test2");
         while (!Advertisement.IsReady(placementId))
         {
             yield return new WaitForSeconds(0.5f);

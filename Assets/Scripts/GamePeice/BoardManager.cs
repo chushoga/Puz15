@@ -60,7 +60,7 @@ public class BoardManager : MonoBehaviour
         hk_PEICES = new GameObject("hk_PEICES"); // Housekeeping parent for the peices
         hk_OVERLAY = new GameObject("hk_OVERLAY"); // Housekeeping parent for the overlay textures
 
-        print(DataManager.ImageIndex);
+        //print(DataManager.ImageIndex);
         if(DataManager.ImageIndex == 0)
         {
             //  set the image to the puzzle size index of the grid puzzle image
